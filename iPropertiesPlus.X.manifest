@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
+
+  <assemblyIdentity name="iPropertiesPlus" version="1.0.0.0"></assemblyIdentity>
+
+  <clrClass clsid="{98bb4777-41d2-47ac-82c9-f56f4f3fe154}" progid="iPropertiesPlus.StandardAddInServer" threadingModel="Both" name="iPropertiesPlus.iPropertiesPlus.StandardAddInServer" runtimeVersion=""></clrClass>
+
+  <file name="iPropertiesPlus.dll" hashalg="SHA1"></file>
+
+</assembly>

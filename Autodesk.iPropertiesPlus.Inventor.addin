@@ -1,0 +1,14 @@
+<Addin Type="Standard">
+  <!--Created for Autodesk Inventor Version 17.0-->
+  <ClassId>{98bb4777-41d2-47ac-82c9-f56f4f3fe154}</ClassId>
+  <ClientId>{98bb4777-41d2-47ac-82c9-f56f4f3fe154}</ClientId>
+  <DisplayName>iPropertiesPlus</DisplayName>
+  <Description>iPropertiesPlus</Description>
+  <Assembly>iPropertiesPlus.dll</Assembly>
+  <LoadOnStartUp>1</LoadOnStartUp>
+  <UserUnloadable>1</UserUnloadable>
+  <Hidden>0</Hidden>
+  <SupportedSoftwareVersionGreaterThan>16..</SupportedSoftwareVersionGreaterThan>
+  <DataVersion>1</DataVersion>
+  <UserInterfaceVersion>1</UserInterfaceVersion>
+</Addin>
