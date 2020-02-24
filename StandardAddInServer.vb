@@ -3,8 +3,8 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.Win32
 
 Namespace iPropertiesPlus
-    <ProgIdAttribute("iPropertiesPlus.StandardAddInServer"), _
-    GuidAttribute("98bb4777-41d2-47ac-82c9-f56f4f3fe154")> _
+    <ProgIdAttribute("iPropertiesPlus.StandardAddInServer"),
+    GuidAttribute("98bb4777-41d2-47ac-82c9-f56f4f3fe154")>
     Public Class StandardAddInServer
         Implements Inventor.ApplicationAddInServer
 
@@ -210,7 +210,6 @@ Namespace iPropertiesPlus
             Throw New NotImplementedException()
         End Sub
     End Class
-
 End Namespace
 
 

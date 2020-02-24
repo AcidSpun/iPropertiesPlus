@@ -172,7 +172,6 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>call "%25VS100COMNTOOLS%25vsvars32"
-mt.exe -manifest "$(ProjectDir)OEMTestAddin.X.manifest" -outputresource:"$(TargetPath)";#2</PostBuildEvent>
+    <PostBuildEvent>"C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\mt.exe" -manifest "$(ProjectDir)iPropertiesPlus.X.manifest" -outputresource:"$(TargetPath)";#2</PostBuildEvent>
   </PropertyGroup>
 </Project>
