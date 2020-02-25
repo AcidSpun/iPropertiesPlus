@@ -115,7 +115,7 @@ Namespace iPropertiesPlus
             Try
                 clsid = clssRoot.CreateSubKey("CLSID\" + AddInGuid(t))
                 clsid.SetValue(Nothing, "iPropertiesPlus")
-                subKey = clsid.CreateSubKey("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
+                subKey = clsid.CreateSubKey("Implemented Categories\{98bb4777-41d2-47ac-82c9-f56f4f3fe154}")
                 subKey.Close()
 
                 subKey = clsid.CreateSubKey("Settings")
@@ -156,7 +156,7 @@ Namespace iPropertiesPlus
                 clssRoot = Microsoft.Win32.Registry.ClassesRoot
                 clsid = clssRoot.OpenSubKey("CLSID\" + AddInGuid(t), True)
                 clsid.SetValue(Nothing, "")
-                clsid.DeleteSubKeyTree("Implemented Categories\{39AD2B5C-7A29-11D6-8E0A-0010B541CAA8}")
+                clsid.DeleteSubKeyTree("Implemented Categories\{98bb4777-41d2-47ac-82c9-f56f4f3fe154}")
                 clsid.DeleteSubKeyTree("Settings")
                 clsid.DeleteSubKeyTree("Description")
             Catch
@@ -170,7 +170,7 @@ Namespace iPropertiesPlus
         ' This property uses reflection to get the value for the GuidAttribute attached to the class.
         Public Shared ReadOnly Property AddInGuid(ByVal t As Type) As String
             Get
-                Dim guid As String = ""
+                Dim guid As String = "98bb4777-41d2-47ac-82c9-f56f4f3fe154"
                 Try
                     Dim customAttributes() As Object = t.GetCustomAttributes(GetType(GuidAttribute), False)
                     Dim guidAttribute As GuidAttribute = CType(customAttributes(0), GuidAttribute)
