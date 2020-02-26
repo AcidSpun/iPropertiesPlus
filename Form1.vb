@@ -13,7 +13,6 @@ Public Class Form1
 #Disable Warning IDE1006 ' Naming Styles
     Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
 #Enable Warning IDE1006 ' Naming Styles
-        iPropertiesPlus.StandardAddInServer.Deactivate()
 
         'Clean up Excel Workbooks by releasing them
         releaseObject(g_wbProperties)
@@ -31,9 +30,6 @@ Public Class Form1
 
         'Clean up Excel Object
         releaseObject(g_Excel)
-
-        g_Excel = Nothing
-        g_wbProperties = Nothing
 
         'Close Program
         Me.Close()
