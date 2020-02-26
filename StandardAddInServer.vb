@@ -1,7 +1,6 @@
 Imports Inventor
 Imports System.Runtime.InteropServices
 Imports Microsoft.Win32
-Imports Microsoft.Office.Interop
 
 Namespace iPropertiesPlus
     <ProgIdAttribute("iPropertiesPlus.StandardAddInServer"),
@@ -184,7 +183,7 @@ Namespace iPropertiesPlus
         ' This property uses reflection to get the value for the GuidAttribute attached to the class.
         Public Shared ReadOnly Property AddInGuid(ByVal t As Type) As String
             Get
-                Dim guid As String = ""
+                Dim guid As String = "98bb4777-41d2-47ac-82c9-f56f4f3fe154"
                 Try
                     Dim customAttributes() As Object = t.GetCustomAttributes(GetType(GuidAttribute), False)
                     Dim guidAttribute As GuidAttribute = CType(customAttributes(0), GuidAttribute)

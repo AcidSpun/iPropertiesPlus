@@ -1,4 +1,5 @@
 ﻿Imports Inventor
+Imports Microsoft.Office.Interop
 Public Class Form1
     'Declaration Part
 #Disable Warning IDE0044 ' Add readonly modifier
@@ -12,6 +13,7 @@ Public Class Form1
 #Disable Warning IDE1006 ' Naming Styles
     Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
 #Enable Warning IDE1006 ' Naming Styles
+        iPropertiesPlus.StandardAddInServer.Deactivate()
 
         'Clean up Excel Workbooks by releasing them
         releaseObject(g_wbProperties)
@@ -19,6 +21,7 @@ Public Class Form1
         releaseObject(typeWS)
         releaseObject(rawMaterialWS)
         releaseObject(SPClassWS)
+        releaseObject(titleWS)
 
         'Close the Excel workbook
         g_wbProperties.Close()
@@ -28,6 +31,9 @@ Public Class Form1
 
         'Clean up Excel Object
         releaseObject(g_Excel)
+
+        g_Excel = Nothing
+        g_wbProperties = Nothing
 
         'Close Program
         Me.Close()
@@ -205,6 +211,7 @@ Public Class Form1
             releaseObject(typeWS)
             releaseObject(rawMaterialWS)
             releaseObject(SPClassWS)
+            releaseObject(titleWS)
 
             'Close the workbook
             g_wbProperties.Close()
@@ -286,6 +293,10 @@ Public Class Form1
             oPropExists = True
         End If
 
+        If oDefault.Value Is Nothing Then
+            oDefault.Value = ("")
+        End If
+
         'get or create the Type Name Property
         Try
             oTypeName = oPropSet.Item("TYPE NAME")
@@ -296,6 +307,10 @@ Public Class Form1
         If Not oPropExists Then
             oTypeName = oPropSet.Add("", "TYPE NAME")
             oPropExists = True
+        End If
+
+        If oTypeName.Value Is Nothing Then
+            oTypeName.Value = ("")
         End If
 
         'get or create the Type Property
@@ -310,6 +325,10 @@ Public Class Form1
             oPropExists = True
         End If
 
+        If oType.Value Is Nothing Then
+            oType.Value = ("")
+        End If
+
         'get or create the Property property
         Try
             oProp = oPropSet.Item("PROPERTY")
@@ -319,8 +338,11 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("", "PROPERTY")
-            oProp = oPropSet.Item("PROPERTY")
             oPropExists = True
+        End If
+
+        If oProp.Value Is Nothing Then
+            oProp.Value = ("")
         End If
 
         'Get or create the Material property
@@ -332,8 +354,11 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("Select Raw Material", "MATERIAL")
-            oMaterial = oPropSet.Item("MATERIAL")
             oPropExists = True
+        End If
+
+        If oMaterial.Value Is Nothing Then
+            oMaterial.Value = ("")
         End If
 
         'Get or create the Raw material Part Number property
@@ -345,8 +370,11 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("", "RAW MATERIAL PART NUMBER")
-            oMaterialNum = oPropSet.Item("RAW MATERIAL PART NUMBER")
             oPropExists = True
+        End If
+
+        If oMaterialNum.Value Is Nothing Then
+            oMaterialNum.Value = ("")
         End If
 
         'get or create the Next Process property
@@ -358,8 +386,11 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("Select Next Process", "NEXT PROCESS")
-            oNextProcess = oPropSet.Item("NEXT PROCESS")
             oPropExists = True
+        End If
+
+        If oNextProcess.Value Is Nothing Then
+            oNextProcess.Value = ("")
         End If
 
         'get or create the Next Process Key property
@@ -371,10 +402,12 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("", "NEXT PROCESS KEY")
-            oNextProcessKey = oPropSet.Item("NEXT PROCESS KEY")
             oPropExists = True
         End If
 
+        If oNextProcessKey.Value Is Nothing Then
+            oNextProcessKey.Value = ("")
+        End If
         'Get or create the SP Class property
         Try
             oSPClass = oPropSet.Item("SP CLASS")
@@ -384,8 +417,11 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("Select SP Class", "SP CLASS")
-            oSPClass = oPropSet.Item("SP CLASS")
             oPropExists = True
+        End If
+
+        If oSPClass.Value Is Nothing Then
+            oSPClass.Value = ("")
         End If
 
         'Get or create the Manufaturer property
@@ -397,8 +433,11 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("", "MANUFACTURER")
-            oManufacturer = oPropSet.Item("MANUFACTURER")
             oPropExists = True
+        End If
+
+        If oManufacturer.Value Is Nothing Then
+            oManufacturer.Value = ("")
         End If
 
         'Get or create the Manufaturer Part Number property
@@ -410,7 +449,10 @@ Public Class Form1
 
         If Not oPropExists Then
             oPropSet.Add("", "MANUFACTURER PART NUMBER")
-            oManPartNum = oPropSet.Item("MANUFACTURER PART NUMBER")
+        End If
+
+        If oManPartNum.Value Is Nothing Then
+            oManPartNum.Value = ("")
         End If
 
 #Disable Warning BC42104 ' Variable is used before it has been assigned a value
