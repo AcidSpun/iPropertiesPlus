@@ -1,6 +1,7 @@
 Imports Inventor
 Imports System.Runtime.InteropServices
 Imports Microsoft.Win32
+Imports Microsoft.Office.Interop
 
 Namespace iPropertiesPlus
     <ProgIdAttribute("iPropertiesPlus.StandardAddInServer"),
@@ -10,59 +11,73 @@ Namespace iPropertiesPlus
 
         ' Inventor application object.
         Private m_clientID As String
-        Private WithEvents m_ipropertyPlusButton As ButtonDefinition
+        Private WithEvents m_iPropertyPlusButton As ButtonDefinition
         Private WithEvents m_UIEvents As UserInterfaceEvents
-        Private WithEvents M_appEvents As ApplicationEvents
+        Private WithEvents m_appEvents As ApplicationEvents
 
 #Region "ApplicationAddInServer Members"
 
+        Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite, ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
+            ' Initialize AddIn members.
+            g_inventorApplication = addInSiteObject.Application
+            m_UIEvents = g_inventorApplication.UserInterfaceManager.UserInterfaceEvents
+            m_appEvents = g_inventorApplication.ApplicationEvents
+
+            ' Set the member variable for the client ID.
+            m_clientID = AddInGuid(Me.GetType)
+
+            ' Get the icon for the button as an iPictureDisp object
+            Dim buttonIcon As stdole.IPictureDisp = Compatibility.VB6.IconToIPicture(My.Resources.iPropPlus)
+
+            ' Create the button for the iProperty Plus command.
+            m_iPropertyPlusButton = g_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition("iProperties +", "iPropertiesPlus", CommandTypesEnum.kFilePropertyEditCmdType, m_clientID, "Custom iProperty command.", "iProperty +", buttonIcon, buttonIcon)
+
+            ' Set the enabled state based on whether there are any visible documents or not.
+            If g_inventorApplication.Views.Count > 0 Then
+                m_iPropertyPlusButton.Enabled = True
+            Else
+                m_iPropertyPlusButton.Enabled = False
+            End If
+
+            If firstTime Then
+                If g_inventorApplication.UserInterfaceManager.InterfaceStyle = InterfaceStyleEnum.kRibbonInterface Then
+                    CreateOrUpdateRibbon()
+                Else
+                    CreateOrUpdateClassic()
+                End If
+            End If
+        End Sub
+
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
-
-            ' This method is called by Inventor when the AddIn is unloaded.
-            ' The AddIn will be unloaded either manually by the user or
-            ' when the Inventor session is terminated.
-
-            ' TODO:  Add ApplicationAddInServer.Deactivate implementation
-
             ' Release objects.
             Marshal.ReleaseComObject(g_inventorApplication)
             g_inventorApplication = Nothing
 
-            System.GC.WaitForPendingFinalizers()
-            System.GC.Collect()
-
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
         End Sub
 
         Public ReadOnly Property Automation() As Object Implements Inventor.ApplicationAddInServer.Automation
-
-            ' This property is provided to allow the AddIn to expose an API 
-            ' of its own to other programs. Typically, this  would be done by
-            ' implementing the AddIn's API interface in a class and returning 
-            ' that class object through this property.
-
             Get
                 Return Nothing
             End Get
-
         End Property
 
         Public Sub ExecuteCommand(ByVal commandID As Integer) Implements Inventor.ApplicationAddInServer.ExecuteCommand
-
             ' Note:this method is now obsolete, you should use the 
             ' ControlDefinition functionality for implementing commands.
-
         End Sub
 
 #End Region
 
         Private Sub CreateOrUpdateRibbon()
-            'Get a reference to the UserInterfaceManager object
+            ' Get a reference to the UserInterfaceManager object.
             Dim UIManager As Inventor.UserInterfaceManager
             UIManager = g_inventorApplication.UserInterfaceManager
 
-            'Add the command to the File Controls, just before the standard iProperties command
+            ' Add the command to the File controls, just before the standard iProperties command. 
             Dim fileControls As CommandControls = UIManager.FileBrowserControls
-            fileControls.AddButton(m_ipropertyPlusButton, , , "AppiPropertiesWrapperCmd", True)
+            fileControls.AddButton(m_iPropertyPlusButton, , , "AppiPropertiesWrapperCmd", True)
         End Sub
 
         Private Sub CreateOrUpdateClassic()
@@ -82,7 +97,7 @@ Namespace iPropertiesPlus
                             Exit For
                         ElseIf cbControl.InternalName = "AppiPropertiesWrapperCmd" Then
                             ' Add the custom button just before this one.
-                            fileCommandBar.Controls.AddButton(m_ipropertyPlusButton, cbControl.Index)
+                            fileCommandBar.Controls.AddButton(m_iPropertyPlusButton, cbControl.Index)
 
                             ' Exit the loop since a match was found.
                             Exit For
@@ -99,7 +114,6 @@ Namespace iPropertiesPlus
         Private Sub m_UIEvents_OnResetRibbonInterface(ByVal Context As Inventor.NameValueMap) Handles m_UIEvents.OnResetRibbonInterface
             CreateOrUpdateRibbon()
         End Sub
-
 
 #Region "COM Registration"
 
@@ -170,7 +184,7 @@ Namespace iPropertiesPlus
         ' This property uses reflection to get the value for the GuidAttribute attached to the class.
         Public Shared ReadOnly Property AddInGuid(ByVal t As Type) As String
             Get
-                Dim guid As String = "98bb4777-41d2-47ac-82c9-f56f4f3fe154"
+                Dim guid As String = ""
                 Try
                     Dim customAttributes() As Object = t.GetCustomAttributes(GetType(GuidAttribute), False)
                     Dim guidAttribute As GuidAttribute = CType(customAttributes(0), GuidAttribute)
@@ -183,33 +197,28 @@ Namespace iPropertiesPlus
 
 #End Region
 
-        Private Sub m_appEvents_OnActivateView(ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles M_appEvents.OnActivateView
+        Private Sub m_appEvents_OnActivateView(ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_appEvents.OnActivateView
             If BeforeOrAfter = EventTimingEnum.kAfter Then
                 If g_inventorApplication.Views.Count > 0 Then
-                    m_ipropertyPlusButton.Enabled = True
+                    m_iPropertyPlusButton.Enabled = True
                 End If
             End If
         End Sub
 
-        Private Sub m_appEvents_OnDeactivateView(ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles M_appEvents.OnDeactivateView
+        Private Sub m_appEvents_OnDeactivateView(ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_appEvents.OnDeactivateView
             If BeforeOrAfter = EventTimingEnum.kAfter Then
                 If g_inventorApplication.Views.Count > 0 Then
-                    m_ipropertyPlusButton.Enabled = True
+                    m_iPropertyPlusButton.Enabled = True
                 Else
-                    m_ipropertyPlusButton.Enabled = False
+                    m_iPropertyPlusButton.Enabled = False
                 End If
             End If
         End Sub
 
-        Private Sub m_iPropertyPlusButton_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_ipropertyPlusButton.OnExecute
-            Dim dialog As Form1
+        Private Sub m_iPropertyPlusButton_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_iPropertyPlusButton.OnExecute
+            Dim dialog As New Form1
             dialog.ShowDialog()
         End Sub
-
-        Public Sub Activate(AddInSiteObject As ApplicationAddInSite, FirstTime As Boolean) Implements ApplicationAddInServer.Activate
-            Throw New NotImplementedException()
-        End Sub
     End Class
+
 End Namespace
-
-
