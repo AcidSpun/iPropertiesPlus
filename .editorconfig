@@ -1,0 +1,13 @@
+﻿[*.vb]
+
+# CA1062: Validate arguments of public methods
+dotnet_diagnostic.CA1062.severity = suggestion
+
+# CA1305: Specify IFormatProvider
+dotnet_diagnostic.CA1305.severity = suggestion
+
+# CA1041: Provide ObsoleteAttribute message
+dotnet_diagnostic.CA1041.severity = none
+
+# BC40000: Type or member is obsolete
+dotnet_diagnostic.BC40000.severity = none

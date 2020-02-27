@@ -89,9 +89,9 @@ Partial Class Form1
         Me.lblNextProcess.AutoSize = True
         Me.lblNextProcess.Location = New System.Drawing.Point(31, 101)
         Me.lblNextProcess.Name = "lblNextProcess"
-        Me.lblNextProcess.Size = New System.Drawing.Size(67, 13)
+        Me.lblNextProcess.Size = New System.Drawing.Size(70, 13)
         Me.lblNextProcess.TabIndex = 5
-        Me.lblNextProcess.Text = "NextProcess"
+        Me.lblNextProcess.Text = "Next Process"
         '
         'cbNextProcess
         '
@@ -161,9 +161,9 @@ Partial Class Form1
         Me.lblManPartNum.AutoSize = True
         Me.lblManPartNum.Location = New System.Drawing.Point(31, 278)
         Me.lblManPartNum.Name = "lblManPartNum"
-        Me.lblManPartNum.Size = New System.Drawing.Size(126, 13)
+        Me.lblManPartNum.Size = New System.Drawing.Size(132, 13)
         Me.lblManPartNum.TabIndex = 13
-        Me.lblManPartNum.Text = "Manufaturer Part Number"
+        Me.lblManPartNum.Text = "Manufacturer Part Number"
         '
         'tbManPartNum
         '
@@ -302,7 +302,7 @@ Partial Class Form1
         Me.Controls.Add(Me.lblDescription)
         Me.Controls.Add(Me.lblTitle)
         Me.Name = "Form1"
-        Me.Text = "iProperties Plus"
+        Me.Text = "iProperties +"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

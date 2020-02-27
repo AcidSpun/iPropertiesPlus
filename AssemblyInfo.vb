@@ -1,4 +1,4 @@
-Imports System
+Imports System.Resources
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -29,3 +29,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 
 <Assembly: AssemblyVersion("1.0.*")>
+<Assembly: ComVisible(True)>
+<Assembly: NeutralResourcesLanguage("en")>

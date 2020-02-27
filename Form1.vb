@@ -1,50 +1,28 @@
-﻿Imports Inventor
-Imports Microsoft.Office.Interop
-Public Class Form1
+﻿Imports System.Runtime.InteropServices
+Imports Inventor
+Module globalsForm1
     'Declaration Part
-#Disable Warning IDE0044 ' Add readonly modifier
-    ReadOnly nextProcessWS As Object = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
-    ReadOnly typeWS As Object = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
-    ReadOnly rawMaterialWS As Object = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
-    ReadOnly SPClassWS As Object = g_wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
-    ReadOnly titleWS As Object = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
-#Enable Warning IDE0044 ' Add readonly modifier
 
-#Disable Warning IDE1006 ' Naming Styles
-    Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
-#Enable Warning IDE1006 ' Naming Styles
+    Public ReadOnly Excel As New Microsoft.Office.Interop.Excel.Application
+    Public ReadOnly wbProperties As Object = Excel.Workbooks.Open("G:\ALLCAD\Engineering Documents\INVENTOR\Custom Add-Ins\iProperties+\Properties.xlsx")
+    Public ReadOnly nextProcessWS As Object = wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
+    Public ReadOnly typeWS As Object = wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
+    Public ReadOnly rawMaterialWS As Object = wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
+    Public ReadOnly SPClassWS As Object = wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
+    Public ReadOnly titleWS As Object = wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
 
-        'Clean up Excel Workbooks by releasing them
-        releaseObject(g_wbProperties)
-        releaseObject(nextProcessWS)
-        releaseObject(typeWS)
-        releaseObject(rawMaterialWS)
-        releaseObject(SPClassWS)
-        releaseObject(titleWS)
-
-        'Close the Excel workbook
-        g_wbProperties.Close()
-
-        'Close Excel
-        g_Excel.Quit()
-
-        'Clean up Excel Object
-        releaseObject(g_Excel)
-
-        'Close Program
-        Me.Close()
-    End Sub
+End Module
+Public Class Form1
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-        ' What happens when the iPorperties Plus Form1 appears on screen
+
         cbBoxFill()
         readiProperty()
 
     End Sub
 
-#Disable Warning IDE1006 ' Naming Styles
     Private Sub cbBoxFill() 'Populates the Combo Boxes from the Excel Spreadsheet Data
-#Enable Warning IDE1006 ' Naming Styles
+
         'Declaration Part
         Dim startedRow As Integer
         Dim totalRowsNext As Integer
@@ -89,145 +67,8 @@ Public Class Form1
             Me.cbTitle.Items.Add(titleWS.Cells(startedRow, 1).text)
         Next
     End Sub
-#Disable Warning IDE1006 ' Naming Styles
-    Private Sub releaseObject(ByVal obj As Object) 'Clean up Sub
-#Enable Warning IDE1006 ' Naming Styles
-        Try
-            Runtime.InteropServices.Marshal.ReleaseComObject(obj)
-            obj = Nothing
-        Catch ex As Exception
-            obj = Nothing
-        Finally
-            GC.Collect()
-        End Try
-    End Sub
 
-#Disable Warning IDE1006 ' Naming Styles
-    Private Sub cbNextProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbNextProcess.SelectedIndexChanged
-        'Populates text boxs related to the Next Process combo box
-#Enable Warning IDE1006 ' Naming Styles
-
-        'Decleration Part
-        Dim startedRow As Integer
-        Dim totalRows As Integer
-
-        'count number of rows in worksheet
-        totalRows = g_Excel.ActiveWorkbook.Sheets(1).Range("a1").Currentregion.Rows.Count
-
-        'Add the Next Process Key to the corresponding text box
-        For startedRow = 1 To totalRows
-            If Me.cbNextProcess.Text = nextProcessWS.Cells(startedRow, 1).text Then
-                Me.tbNextProcessKey.Text = nextProcessWS.Cells(startedRow, 2).text
-            End If
-        Next
-
-    End Sub
-
-#Disable Warning IDE1006 ' Naming Styles
-    Private Sub cbRawMaterial_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbRawMaterial.SelectedIndexChanged
-        'Populates text boxs related to the raw Materials combo box
-#Enable Warning IDE1006 ' Naming Styles
-
-        'Decleration Part
-        Dim startedRow As Integer
-        Dim totalRows As Integer
-
-        'count number of rows in worksheet
-        totalRows = g_Excel.ActiveWorkbook.Sheets(3).Range("a1").Currentregion.Rows.Count
-
-        'Add the Raw Material Part Number to the corresponding text box
-        For startedRow = 1 To totalRows
-            If Me.cbRawMaterial.Text = rawMaterialWS.Cells(startedRow, 2).text Then
-                Me.tbRawMaterialPartNumber.Text = rawMaterialWS.Cells(startedRow, 1).text
-            End If
-        Next
-
-    End Sub
-
-#Disable Warning IDE1006 ' Naming Styles
-    Private Sub cbType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbType.SelectedIndexChanged
-        'Populates text boxs related to the Type combo box
-#Enable Warning IDE1006 ' Naming Styles
-
-        'Decleration Part
-        Dim startedRow As Integer
-        Dim totalRows As Integer
-
-        'count number of rows in worksheet
-        totalRows = g_Excel.ActiveWorkbook.Sheets(2).Range("a1").Currentregion.Rows.Count
-
-        'Add the Type and Propertie to the corresponding text boxs
-        For startedRow = 1 To totalRows
-            If Me.cbType.Text = typeWS.Cells(startedRow, 1).text Then
-                Me.tbTypeNumber.Text = typeWS.Cells(startedRow, 2).text
-                Me.tbPropertyType.Text = typeWS.Cells(startedRow, 3).text
-            End If
-        Next
-
-    End Sub
-
-#Disable Warning IDE1006 ' Naming Styles
-    Private Sub btOK_Click(sender As Object, e As EventArgs) Handles btOK.Click 'OK Button Clicked
-#Enable Warning IDE1006 ' Naming Styles
-
-        'Declaration part
-        Dim oApp As Inventor.Application
-        Dim oDoc As Document
-        Dim oPropSets As PropertySets
-        Dim oPropSet As PropertySet
-        Dim oDescription As [Property]
-        Dim over As Integer
-
-        'Get the active Document
-        oApp = GetObject(, "Inventor.Application")
-        oDoc = oApp.ActiveDocument
-
-        'Get the PropertySets object
-        oPropSets = oDoc.PropertySets
-
-        'get the design tracking property set
-        oPropSet = oPropSets.Item("Design Tracking Properties")
-
-        'Get the Description iProperty
-        oDescription = oPropSet.Item("Description")
-
-        'Get the new description from the text box
-        oDescription.Value = tbDescription.Text
-
-        If Len(oDescription.Value) > 60 Then
-            over = Len(oDescription.Value) - 60
-            MsgBox("The Description may only have 60 Charecters." & vbCrLf & "Remove " & over & " Charecters")
-
-        Else
-            writeiProperty()
-
-            'Clean up Excel Workbooks
-            releaseObject(g_wbProperties)
-            releaseObject(nextProcessWS)
-            releaseObject(typeWS)
-            releaseObject(rawMaterialWS)
-            releaseObject(SPClassWS)
-            releaseObject(titleWS)
-
-            'Close the workbook
-            g_wbProperties.Close()
-
-            'Close Excel
-            g_Excel.Quit()
-
-            'Clean up Excel Object
-            releaseObject(g_Excel)
-
-            'Close Program
-            Me.Close()
-        End If
-
-
-    End Sub
-
-#Disable Warning IDE1006 ' Naming Styles
     Public Sub readiProperty()
-#Enable Warning IDE1006 ' Naming Styles
 
         'Declaration part
         Dim oApp As Inventor.Application
@@ -283,14 +124,12 @@ Public Class Form1
         End Try
 
         If Not oPropExists Then
-#Disable Warning IDE0059 ' Unnecessary assignment of a value
             oDefault = oPropSet.Add("NUMBER", "DEFAULT UNIT")
-#Enable Warning IDE0059 ' Unnecessary assignment of a value
             oPropExists = True
         End If
 
         If oDefault.Value Is Nothing Then
-            oDefault.Value = ("")
+            oDefault.Value = ("NUMBER")
         End If
 
         'get or create the Type Name Property
@@ -301,12 +140,12 @@ Public Class Form1
         End Try
 
         If Not oPropExists Then
-            oTypeName = oPropSet.Add("", "TYPE NAME")
+            oTypeName = oPropSet.Add("Select Type", "TYPE NAME")
             oPropExists = True
         End If
 
         If oTypeName.Value Is Nothing Then
-            oTypeName.Value = ("")
+            oTypeName.Value = ("Select Type")
         End If
 
         'get or create the Type Property
@@ -354,7 +193,7 @@ Public Class Form1
         End If
 
         If oMaterial.Value Is Nothing Then
-            oMaterial.Value = ("")
+            oMaterial.Value = ("Select Raw Material")
         End If
 
         'Get or create the Raw material Part Number property
@@ -386,7 +225,7 @@ Public Class Form1
         End If
 
         If oNextProcess.Value Is Nothing Then
-            oNextProcess.Value = ("")
+            oNextProcess.Value = ("Select Next Process")
         End If
 
         'get or create the Next Process Key property
@@ -417,7 +256,7 @@ Public Class Form1
         End If
 
         If oSPClass.Value Is Nothing Then
-            oSPClass.Value = ("")
+            oSPClass.Value = ("Select Spare Part Clasification")
         End If
 
         'Get or create the Manufaturer property
@@ -451,7 +290,6 @@ Public Class Form1
             oManPartNum.Value = ("")
         End If
 
-#Disable Warning BC42104 ' Variable is used before it has been assigned a value
         'read the inventor iproperties if they exist
         cbTitle.Text = oTitle.Value
         tbDescription.Text = oDescription.Value
@@ -465,13 +303,116 @@ Public Class Form1
         cbSPClass.Text = oSPClass.Value
         tbManufacturer.Text = oManufacturer.Value
         tbManPartNum.Text = oManPartNum.Value
-#Enable Warning BC42104 ' Variable is used before it has been assigned a value
 
     End Sub
 
-#Disable Warning IDE1006 ' Naming Styles
+    Private Sub cbNextProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbNextProcess.SelectedIndexChanged
+        'Populates text boxs related to the Next Process combo box
+
+        'Decleration Part
+        Dim startedRow As Integer
+        Dim totalRows As Integer
+
+        'count number of rows in worksheet
+        totalRows = Excel.ActiveWorkbook.Sheets(1).Range("a1").Currentregion.Rows.Count
+
+        'Add the Next Process Key to the corresponding text box
+        For startedRow = 1 To totalRows
+            If cbNextProcess.Text = nextProcessWS.Cells(startedRow, 1).text Then
+                tbNextProcessKey.Text = nextProcessWS.Cells(startedRow, 2).text
+            End If
+        Next
+
+    End Sub
+
+    Private Sub cbRawMaterial_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbRawMaterial.SelectedIndexChanged
+        'Populates text boxs related to the raw Materials combo box
+
+        'Decleration Part
+        Dim startedRow As Integer
+        Dim totalRows As Integer
+
+        'count number of rows in worksheet
+        totalRows = Excel.ActiveWorkbook.Sheets(3).Range("a1").Currentregion.Rows.Count
+
+        'Add the Raw Material Part Number to the corresponding text box
+        For startedRow = 1 To totalRows
+            If cbRawMaterial.Text = rawMaterialWS.Cells(startedRow, 2).text Then
+                tbRawMaterialPartNumber.Text = rawMaterialWS.Cells(startedRow, 1).text
+            End If
+        Next
+
+    End Sub
+
+    Private Sub cbType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbType.SelectedIndexChanged
+        'Populates text boxs related to the Type combo box
+
+        'Decleration Part
+        Dim startedRow As Integer
+        Dim totalRows As Integer
+
+        'count number of rows in worksheet
+        totalRows = Excel.ActiveWorkbook.Sheets(2).Range("a1").Currentregion.Rows.Count
+
+        'Add the Type and Propertie to the corresponding text boxs
+        For startedRow = 1 To totalRows
+            If cbType.Text = typeWS.Cells(startedRow, 1).text Then
+                tbTypeNumber.Text = typeWS.Cells(startedRow, 2).text
+                tbPropertyType.Text = typeWS.Cells(startedRow, 3).text
+            End If
+        Next
+
+    End Sub
+
+    Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
+
+        'Close Program
+        DialogResult = Windows.Forms.DialogResult.Cancel
+        Close()
+
+    End Sub
+
+    Private Sub btOK_Click(sender As Object, e As EventArgs) Handles btOK.Click 'OK Button Clicked
+
+        'Declaration part
+        Dim oApp As Inventor.Application
+        Dim oDoc As Document
+        Dim oPropSets As PropertySets
+        Dim oPropSet As PropertySet
+        Dim oDescription As [Property]
+        Dim over As Integer
+
+        'Get the active Document
+        oApp = GetObject(, "Inventor.Application")
+        oDoc = oApp.ActiveDocument
+
+        'Get the PropertySets object
+        oPropSets = oDoc.PropertySets
+
+        'get the design tracking property set
+        oPropSet = oPropSets.Item("Design Tracking Properties")
+
+        'Get the Description iProperty
+        oDescription = oPropSet.Item("Description")
+
+        'Get the new description from the text box
+        oDescription.Value = tbDescription.Text
+
+        If Len(oDescription.Value) > 60 Then
+            over = Len(oDescription.Value) - 60
+            MsgBox("The Description may only have 60 Charecters." & vbCrLf & "Remove " & over & " Charecters")
+
+        Else
+            writeiProperty()
+        End If
+
+        'Close Program
+        DialogResult = Windows.Forms.DialogResult.OK
+        Close()
+
+    End Sub
+
     Public Sub writeiProperty()
-#Enable Warning IDE1006 ' Naming Styles
 
         'Declaration part
         Dim oApp As Inventor.Application
@@ -554,12 +495,26 @@ Public Class Form1
         End Try
 
         If Not oPropCheck Then
-#Disable Warning BC42104 ' Variable is used before it has been assigned a value
             oDelProp.Delete()
-#Enable Warning BC42104 ' Variable is used before it has been assigned a value
             oDelProp = oPropSet("it.system_group.PROPRIETA")
             oDelProp.Delete()
         End If
+
+    End Sub
+
+    Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+
+        'Close Excel
+        Marshal.ReleaseComObject(typeWS)
+        Marshal.ReleaseComObject(nextProcessWS)
+        Marshal.ReleaseComObject(rawMaterialWS)
+        Marshal.ReleaseComObject(SPClassWS)
+        Marshal.ReleaseComObject(titleWS)
+        Marshal.ReleaseComObject(wbProperties)
+        Marshal.ReleaseComObject(Excel)
+        Excel.ActiveWorkbook.Close()
+        Excel.Quit()
+        GC.WaitForPendingFinalizers()
 
     End Sub
 
