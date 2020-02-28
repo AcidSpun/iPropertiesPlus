@@ -233,6 +233,18 @@ Namespace iPropertiesPlus
                 dialog.ShowDialog()
             End Using
         End Sub
+
+        Private Sub m_appEvents_OnActivateDocument(DocumentObject As _Document, BeforeOrAfter As EventTimingEnum, Context As NameValueMap, ByRef HandlingCode As HandlingCodeEnum) Handles m_appEvents.OnActivateDocument
+            If g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
+                m_iPropertyPlusButton.Enabled = True
+            ElseIf g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
+                m_iPropertyPlusButton.Enabled = True
+            ElseIf g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kPresentationDocumentObject Then
+                m_iPropertyPlusButton.Enabled = False
+            Else
+                m_iPropertyPlusButton.Enabled = False
+            End If
+        End Sub
     End Class
 
 End Namespace
