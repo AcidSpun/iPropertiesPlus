@@ -48,12 +48,26 @@ Namespace iPropertiesPlus
         End Sub
 
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
+
+            'Close the Workbook
+            g_ExcelApp.ActiveWorkbook.Close()
+
+            'Close Excel
+            g_ExcelApp.Quit()
+
             ' Release objects.
             Marshal.ReleaseComObject(g_inventorApplication)
             g_inventorApplication = Nothing
 
-            System.GC.WaitForPendingFinalizers()
-            System.GC.Collect()
+            Marshal.ReleaseComObject(g_wbProperties)
+            g_wbProperties = Nothing
+
+            Marshal.ReleaseComObject(g_ExcelApp)
+            g_ExcelApp = Nothing
+
+            'Cleanup
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
         End Sub
 
         Public ReadOnly Property Automation() As Object Implements Inventor.ApplicationAddInServer.Automation

@@ -5,13 +5,12 @@ Imports Excel = Microsoft.Office.Interop.Excel
 Public Class fmiPropertiesPlus
 
     'Declaration Part
-    Public Excel As New Excel.Application
-    Public wbProperties = Excel.Workbooks.Open("G:\ALLCAD\Engineering Documents\INVENTOR\Custom Add-Ins\iProperties+\Properties.xlsx")
-    Public nextProcessWS = wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
-    Public typeWS = wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
-    Public rawMaterialWS = wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
-    Public SPClassWS = wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
-    Public titleWS = wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
+
+    Public ReadOnly nextProcessWS = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
+    Public ReadOnly typeWS = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
+    Public ReadOnly rawMaterialWS = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
+    Public ReadOnly SPClassWS = g_wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
+    Public ReadOnly titleWS = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
 
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
@@ -314,7 +313,7 @@ Public Class fmiPropertiesPlus
         Dim totalRows As Integer
 
         'count number of rows in worksheet
-        totalRows = Excel.ActiveWorkbook.Sheets(1).Range("a1").Currentregion.Rows.Count
+        totalRows = g_ExcelApp.ActiveWorkbook.Sheets(1).Range("a1").Currentregion.Rows.Count
 
         'Add the Next Process Key to the corresponding text box
         For startedRow = 1 To totalRows
@@ -333,7 +332,7 @@ Public Class fmiPropertiesPlus
         Dim totalRows As Integer
 
         'count number of rows in worksheet
-        totalRows = Excel.ActiveWorkbook.Sheets(3).Range("a1").Currentregion.Rows.Count
+        totalRows = g_ExcelApp.ActiveWorkbook.Sheets(3).Range("a1").Currentregion.Rows.Count
 
         'Add the Raw Material Part Number to the corresponding text box
         For startedRow = 1 To totalRows
@@ -352,7 +351,7 @@ Public Class fmiPropertiesPlus
         Dim totalRows As Integer
 
         'count number of rows in worksheet
-        totalRows = Excel.ActiveWorkbook.Sheets(2).Range("a1").Currentregion.Rows.Count
+        totalRows = g_ExcelApp.ActiveWorkbook.Sheets(2).Range("a1").Currentregion.Rows.Count
 
         'Add the Type and Propertie to the corresponding text boxs
         For startedRow = 1 To totalRows
@@ -502,20 +501,12 @@ Public Class fmiPropertiesPlus
 
     Private Sub fmiProperteisPlus_Closed(sender As Object, e As EventArgs) Handles Me.Closed
 
-        'Close the Workbook
-        Excel.ActiveWorkbook.Close()
-
-        'Close Excel
-        Excel.Quit()
-
         ' Release the worksheets
         Marshal.ReleaseComObject(typeWS)
         Marshal.ReleaseComObject(nextProcessWS)
         Marshal.ReleaseComObject(rawMaterialWS)
         Marshal.ReleaseComObject(SPClassWS)
         Marshal.ReleaseComObject(titleWS)
-        Marshal.ReleaseComObject(wbProperties)
-        Marshal.ReleaseComObject(Excel)
 
         'Cleanup
         GC.WaitForPendingFinalizers()
