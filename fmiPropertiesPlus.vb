@@ -1,18 +1,18 @@
 ﻿Imports System.Runtime.InteropServices
 Imports Inventor
-Module globalsForm1
+Imports Excel = Microsoft.Office.Interop.Excel
+
+Public Class fmiPropertiesPlus
+
     'Declaration Part
+    Public Excel As New Excel.Application
+    Public wbProperties = Excel.Workbooks.Open("G:\ALLCAD\Engineering Documents\INVENTOR\Custom Add-Ins\iProperties+\Properties.xlsx")
+    Public nextProcessWS = wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
+    Public typeWS = wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
+    Public rawMaterialWS = wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
+    Public SPClassWS = wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
+    Public titleWS = wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
 
-    Public ReadOnly Excel As New Microsoft.Office.Interop.Excel.Application
-    Public ReadOnly wbProperties As Object = Excel.Workbooks.Open("G:\ALLCAD\Engineering Documents\INVENTOR\Custom Add-Ins\iProperties+\Properties.xlsx")
-    Public ReadOnly nextProcessWS As Object = wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
-    Public ReadOnly typeWS As Object = wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
-    Public ReadOnly rawMaterialWS As Object = wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
-    Public ReadOnly SPClassWS As Object = wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
-    Public ReadOnly titleWS As Object = wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
-
-End Module
-Public Class Form1
 
     Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 
@@ -367,7 +367,6 @@ Public Class Form1
     Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
 
         'Close Program
-        DialogResult = Windows.Forms.DialogResult.Cancel
         Close()
 
     End Sub
@@ -407,7 +406,6 @@ Public Class Form1
         End If
 
         'Close Program
-        DialogResult = Windows.Forms.DialogResult.OK
         Close()
 
     End Sub
@@ -502,9 +500,15 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Form1_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+    Private Sub fmiProperteisPlus_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+
+        'Close the Workbook
+        Excel.ActiveWorkbook.Close()
 
         'Close Excel
+        Excel.Quit()
+
+        ' Release the worksheets
         Marshal.ReleaseComObject(typeWS)
         Marshal.ReleaseComObject(nextProcessWS)
         Marshal.ReleaseComObject(rawMaterialWS)
@@ -512,9 +516,10 @@ Public Class Form1
         Marshal.ReleaseComObject(titleWS)
         Marshal.ReleaseComObject(wbProperties)
         Marshal.ReleaseComObject(Excel)
-        Excel.ActiveWorkbook.Close()
-        Excel.Quit()
+
+        'Cleanup
         GC.WaitForPendingFinalizers()
+        GC.Collect()
 
     End Sub
 
