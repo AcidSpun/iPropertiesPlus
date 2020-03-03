@@ -1,9 +1,9 @@
 ﻿Imports System.Runtime.InteropServices
 Imports Inventor
+
 Public Class fmiPropertiesPlus
 
-    'Declaration Part
-
+    'Declaration Part for Class Global Variables
     Public ReadOnly nextProcessWS As Object = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
     Public ReadOnly typeWS As Object = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
     Public ReadOnly rawMaterialWS As Object = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
@@ -11,16 +11,16 @@ Public Class fmiPropertiesPlus
     Public ReadOnly titleWS As Object = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
 
 
-    Private Sub fmiProperteisPlus_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+    Private Sub fmiProperteisPlus_Shown(sender As Object, e As EventArgs) Handles Me.Shown 'This Sub runs when the iProperties+ window is shown
 
-        cbBoxFill()
-        readiProperty()
+        cbBoxFill() 'Populates the combo boxes from the excel worksheet
+        readiProperty() ' reads the current iProperties from the inventor files, and populates the related combo/text boxes
 
     End Sub
 
     Private Sub cbBoxFill() 'Populates the Combo Boxes from the Excel Spreadsheet Data
 
-        'Declaration Part
+        'Declaration Part for local variables
         Dim startedRow As Integer
         Dim totalRowsNext As Integer
         Dim totalRowType As Integer
@@ -43,31 +43,43 @@ Public Class fmiPropertiesPlus
         totalRowSPClass = SPClassWS.range("a1").Currentregion.Rows.Count
         totalRowTitle = titleWS.range("a1").Currentregion.Rows.Count
 
+
+#Region "Populate Combo Box Menues"
+
         'Loops for Populating the Combo Boxes
+
+        ' Populates the Next Process drop down menu
         For startedRow = 1 To totalRowsNext
             Me.cbNextProcess.Items.Add(nextProcessWS.Cells(startedRow, 1).text)
         Next
 
+        ' Populates the Type drop down menu
         For startedRow = 1 To totalRowType
             Me.cbType.Items.Add(typeWS.Cells(startedRow, 1).text)
         Next
 
+        ' Populates the Raw Material drop down menu
         For startedRow = 1 To totalRowRawMaterial
             Me.cbRawMaterial.Items.Add(rawMaterialWS.Cells(startedRow, 2).text)
         Next
 
+        ' Populates the SP Class drop down menu
         For startedRow = 1 To totalRowSPClass
             Me.cbSPClass.Items.Add(SPClassWS.Cells(startedRow, 1).text)
         Next
 
+        ' Populates the Title drop down menu
         For startedRow = 1 To totalRowTitle
             Me.cbTitle.Items.Add(titleWS.Cells(startedRow, 1).text)
         Next
+
+#End Region
+
     End Sub
 
     Public Sub readiProperty()
 
-        'Declaration part
+        'Declaration part for local variables
         Dim oApp As Inventor.Application
         Dim oDoc As Document
         Dim oPropSets As PropertySets
@@ -87,6 +99,7 @@ Public Class fmiPropertiesPlus
         Dim oManPartNum As [Property]
         Dim oPropExists As Boolean = True
 
+        'Get the Inventor.Application Object
         oApp = GetObject(, "Inventor.Application")
 
         'Get the active Document
@@ -95,22 +108,25 @@ Public Class fmiPropertiesPlus
         'Get the PropertySets object
         oPropSets = oDoc.PropertySets
 
-        'Get the summary property set
+        'Get the Summary property set from Inventor files iProperties to get Title
         oPropSet = oPropSets.Item("Inventor Summary Information")
 
         'Get the Title iProperty
         oTitle = oPropSet.Item("Title")
 
-        'get the design tracking property set
+        'change the property set to Design Tracking Properties to get Description
         oPropSet = oPropSets.Item("Design Tracking Properties")
 
         'Get the Description iProperty
         oDescription = oPropSet.Item("Description")
 
-        'Change the design tracking property set to custom
+        'Change the design tracking property set to Custom to get the required properties for WindChill use
         oPropSet = oPropSets.Item("Inventor User Defined Properties")
 
         'get the custom design tracking properties
+
+#Region "Get or Create the Custom Design Tracking Properties"
+
 
         'Get the custom design tracking properties if they exist and create them if they do not
         'Get or create Default Unit Property
@@ -255,8 +271,10 @@ Public Class fmiPropertiesPlus
             oManPartNum = oPropSet.Item("MANUFACTURER PART NUMBER")
         End If
 
+#End Region
 
-        'read the inventor iproperties if they exist
+
+        ' Populate the Text/Combo boxes with the current iProperties values
         cbTitle.Text = oTitle.Value
         tbDescription.Text = oDescription.Value
         cbType.Text = oTypeName.Value
@@ -273,13 +291,13 @@ Public Class fmiPropertiesPlus
     End Sub
 
     Private Sub cbNextProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbNextProcess.SelectedIndexChanged
-        'Populates text boxs related to the Next Process combo box
+        'Populates text boxs related to the Next Process combo box on item select
 
-        'Decleration Part
+        'Decleration Part for local variables
         Dim startedRow As Integer
         Dim totalRows As Integer
 
-        'count number of rows in worksheet
+        'count number of rows inNext Process worksheet
         totalRows = g_ExcelApp.ActiveWorkbook.Sheets(1).Range("a1").Currentregion.Rows.Count
 
         'Add the Next Process Key to the corresponding text box
@@ -292,13 +310,13 @@ Public Class fmiPropertiesPlus
     End Sub
 
     Private Sub cbRawMaterial_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbRawMaterial.SelectedIndexChanged
-        'Populates text boxs related to the raw Materials combo box
+        'Populates text boxs related to the raw Materials combo box on item select
 
-        'Decleration Part
+        'Decleration Part for local variables
         Dim startedRow As Integer
         Dim totalRows As Integer
 
-        'count number of rows in worksheet
+        'count number of rows in Raw Material worksheet
         totalRows = g_ExcelApp.ActiveWorkbook.Sheets(3).Range("a1").Currentregion.Rows.Count
 
         'Add the Raw Material Part Number to the corresponding text box
@@ -311,13 +329,13 @@ Public Class fmiPropertiesPlus
     End Sub
 
     Private Sub cbType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbType.SelectedIndexChanged
-        'Populates text boxs related to the Type combo box
+        'Populates text boxs related to the Type combo box on item select
 
-        'Decleration Part
+        'Decleration Part for local variables
         Dim startedRow As Integer
         Dim totalRows As Integer
 
-        'count number of rows in worksheet
+        'count number of rows in Type worksheet
         totalRows = g_ExcelApp.ActiveWorkbook.Sheets(2).Range("a1").Currentregion.Rows.Count
 
         'Add the Type and Propertie to the corresponding text boxs
@@ -332,14 +350,13 @@ Public Class fmiPropertiesPlus
 
     Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
 
-        'Close Program
-        Close()
+        Close() 'Close the iProperties+ window
 
     End Sub
 
     Private Sub btOK_Click(sender As Object, e As EventArgs) Handles btOK.Click 'OK Button Clicked
 
-        'Declaration part
+        'Declaration part for local variables
         Dim oApp As Inventor.Application
         Dim oDoc As Document
         Dim oPropSets As PropertySets
@@ -363,16 +380,17 @@ Public Class fmiPropertiesPlus
         'Get the new description from the text box
         oDescription.Value = tbDescription.Text
 
+        ' Check that the description is less than 60 charecters.  If over 60 then inform the user of how many charecters they are over by
+        ' If under 60 charecters then write the new iproperties to inventor
         If Len(oDescription.Value) > 60 Then
             over = Len(oDescription.Value) - 60
             MsgBox("The Description may only have 60 Charecters." & vbCrLf & "Remove " & over & " Charecters")
 
         Else
-            writeiProperty()
+            writeiProperty() 'Calls the sub to write the iProperties from the text/combo boxs
         End If
 
-        'Close Program
-        Close()
+        Close() 'Close the iProperties+ window
 
     End Sub
 
@@ -467,6 +485,7 @@ Public Class fmiPropertiesPlus
     End Sub
 
     Private Sub fmiProperteisPlus_Closed(sender As Object, e As EventArgs) Handles Me.Closed
+        ' This is what happens when the iProperties+ window is closed
 
         ' Release the worksheets
         Marshal.ReleaseComObject(typeWS)

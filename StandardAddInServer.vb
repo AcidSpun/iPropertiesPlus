@@ -8,16 +8,22 @@ Namespace iPropertiesPlus
     Public Class StandardAddInServer
         Implements Inventor.ApplicationAddInServer
 
-        ' Inventor application object.
+        ' Inventor application objects.
         Private m_clientID As String
+
+        ' sets the local events variables
         Private WithEvents m_iPropertyPlusButton As ButtonDefinition
         Private WithEvents m_UIEvents As UserInterfaceEvents
         Private WithEvents m_appEvents As ApplicationEvents
 
 #Region "ApplicationAddInServer Members"
 
-        Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite, ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
-            ' Initialize AddIn members.
+        Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite,
+                ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
+            ' This sub runs on activation of the iPropertiesPlus Add-In, 
+            ' also runs when inventor Is opened if the add-in Is set to activate on launch.
+
+            ' Initialize of AddIn members.
             g_inventorApplication = addInSiteObject.Application
             m_UIEvents = g_inventorApplication.UserInterfaceManager.UserInterfaceEvents
             m_appEvents = g_inventorApplication.ApplicationEvents
@@ -29,7 +35,9 @@ Namespace iPropertiesPlus
             Dim buttonIcon As stdole.IPictureDisp = Microsoft.VisualBasic.Compatibility.VB6.IconToIPicture(My.Resources.iPropPlus)
 
             ' Create the button for the iProperty Plus command.
-            m_iPropertyPlusButton = g_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition("iProperties +", "iPropertyPlus", CommandTypesEnum.kFilePropertyEditCmdType, m_clientID, "Custom iProperty command.", "iProperty +", buttonIcon, buttonIcon)
+            m_iPropertyPlusButton = g_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition("iProperties +",
+                "iPropertyPlus", CommandTypesEnum.kFilePropertyEditCmdType, m_clientID, "Custom iProperty command.",
+                "iProperty +", buttonIcon, buttonIcon)
 
             ' Set the enabled state based on whether there are any visible documents or not.
             If g_inventorApplication.Views.Count > 0 Then
@@ -48,6 +56,7 @@ Namespace iPropertiesPlus
         End Sub
 
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
+            ' This sub runs on deactivation of the Add-In, also runs when inventor is closed
 
             'Close the Workbook
             g_ExcelApp.ActiveWorkbook.Close()
@@ -55,7 +64,7 @@ Namespace iPropertiesPlus
             'Close Excel
             g_ExcelApp.Quit()
 
-            ' Release objects.
+            ' Release the global objects.
             Marshal.ReleaseComObject(g_inventorApplication)
             g_inventorApplication = Nothing
 
@@ -71,9 +80,11 @@ Namespace iPropertiesPlus
         End Sub
 
         Public ReadOnly Property Automation() As Object Implements Inventor.ApplicationAddInServer.Automation
+            'Required by Standard Application Add-In server.   Not used in this add-in
             Get
                 Return Nothing
             End Get
+
         End Property
 
         Public Sub ExecuteCommand(ByVal commandID As Integer) Implements Inventor.ApplicationAddInServer.ExecuteCommand
@@ -83,7 +94,7 @@ Namespace iPropertiesPlus
 
 #End Region
 
-        Private Sub CreateOrUpdateRibbon()
+        Private Sub CreateOrUpdateRibbon() ' Used to add the button to the ribbon on newer versions of Inventor
             ' Get a reference to the UserInterfaceManager object.
             Dim UIManager As Inventor.UserInterfaceManager
             UIManager = g_inventorApplication.UserInterfaceManager
@@ -91,9 +102,11 @@ Namespace iPropertiesPlus
             ' Add the command to the File controls, just before the standard iProperties command. 
             Dim fileControls As CommandControls = UIManager.FileBrowserControls
             fileControls.AddButton(m_iPropertyPlusButton, , , "AppiPropertiesWrapperCmd", True)
+
         End Sub
 
-        Private Sub CreateOrUpdateClassic()
+        Private Sub CreateOrUpdateClassic() 'Used  to add the button to older versions of Inventor
+
             ' Add a button to the command bar that's used for the File menus of each of the environments.
             For Each currentEnvironment As Inventor.Environment In g_inventorApplication.UserInterfaceManager.Environments
                 If Not currentEnvironment.DefaultMenuBar Is Nothing Then
@@ -118,14 +131,23 @@ Namespace iPropertiesPlus
                     Next
                 End If
             Next
+
         End Sub
 
-        Private Sub m_UIEvents_OnResetCommandBars(ByVal CommandBars As Inventor.ObjectsEnumerator, ByVal Context As Inventor.NameValueMap) Handles m_UIEvents.OnResetCommandBars
+        Private Sub m_UIEvents_OnResetCommandBars(
+                ByVal CommandBars As Inventor.ObjectsEnumerator,
+                ByVal Context As Inventor.NameValueMap) Handles m_UIEvents.OnResetCommandBars
+            ' Activestes when the Command Bar is reset
+
             CreateOrUpdateClassic()
+
         End Sub
 
         Private Sub m_UIEvents_OnResetRibbonInterface(ByVal Context As Inventor.NameValueMap) Handles m_UIEvents.OnResetRibbonInterface
+            ' Activates when the Ribbon is reset
+
             CreateOrUpdateRibbon()
+
         End Sub
 
 #Region "COM Registration"
@@ -162,7 +184,7 @@ Namespace iPropertiesPlus
                 subKey.SetValue(Nothing, "iPropertiesPlus")
 
             Catch ex As Exception
-                System.Diagnostics.Trace.Assert(False)
+                Trace.Assert(False)
             Finally
                 If Not subKey Is Nothing Then subKey.Close()
                 If Not clsid Is Nothing Then clsid.Close()
@@ -210,15 +232,23 @@ Namespace iPropertiesPlus
 
 #End Region
 
-        Private Sub m_appEvents_OnActivateView(ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_appEvents.OnActivateView
+        Private Sub m_appEvents_OnActivateView(ByVal ViewObject As Inventor.View,
+                ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap,
+                ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_appEvents.OnActivateView
+            ' This happens when the inventor window is changed
+
             If BeforeOrAfter = EventTimingEnum.kAfter Then
                 If g_inventorApplication.Views.Count > 0 Then
                     m_iPropertyPlusButton.Enabled = True
                 End If
             End If
+
         End Sub
 
-        Private Sub m_appEvents_OnDeactivateView(ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum, ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_appEvents.OnDeactivateView
+        Private Sub m_appEvents_OnDeactivateView(
+                ByVal ViewObject As Inventor.View, ByVal BeforeOrAfter As Inventor.EventTimingEnum,
+                ByVal Context As Inventor.NameValueMap, ByRef HandlingCode As Inventor.HandlingCodeEnum) Handles m_appEvents.OnDeactivateView
+            ' This happens when the inventor window is closed
             If BeforeOrAfter = EventTimingEnum.kAfter Then
                 If g_inventorApplication.Views.Count > 0 Then
                     m_iPropertyPlusButton.Enabled = True
@@ -229,12 +259,19 @@ Namespace iPropertiesPlus
         End Sub
 
         Private Sub m_iPropertyPlusButton_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_iPropertyPlusButton.OnExecute
+            'This runs whne the iProperties+ button is clicked
+
             Using dialog As New fmiPropertiesPlus
                 dialog.ShowDialog()
             End Using
         End Sub
 
-        Private Sub m_appEvents_OnActivateDocument(DocumentObject As _Document, BeforeOrAfter As EventTimingEnum, Context As NameValueMap, ByRef HandlingCode As HandlingCodeEnum) Handles m_appEvents.OnActivateDocument
+        Private Sub m_appEvents_OnActivateDocument(
+                DocumentObject As _Document, BeforeOrAfter As EventTimingEnum, Context As NameValueMap,
+                ByRef HandlingCode As HandlingCodeEnum) Handles m_appEvents.OnActivateDocument
+            ' This runs when the Inventor window is changed to a different part or drawing file
+
+            ' Grays out the iProperties+ button if the document is not an assembly or part file
             If g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kAssemblyDocumentObject Then
                 m_iPropertyPlusButton.Enabled = True
             ElseIf g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
@@ -244,7 +281,9 @@ Namespace iPropertiesPlus
             Else
                 m_iPropertyPlusButton.Enabled = False
             End If
+
         End Sub
+
     End Class
 
 End Namespace
