@@ -1,19 +1,17 @@
 ﻿Imports System.Runtime.InteropServices
 Imports Inventor
-Imports Excel = Microsoft.Office.Interop.Excel
-
 Public Class fmiPropertiesPlus
 
     'Declaration Part
 
-    Public ReadOnly nextProcessWS = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
-    Public ReadOnly typeWS = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
-    Public ReadOnly rawMaterialWS = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
-    Public ReadOnly SPClassWS = g_wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
-    Public ReadOnly titleWS = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
+    Public ReadOnly nextProcessWS As Object = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
+    Public ReadOnly typeWS As Object = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
+    Public ReadOnly rawMaterialWS As Object = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
+    Public ReadOnly SPClassWS As Object = g_wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
+    Public ReadOnly titleWS As Object = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
 
 
-    Private Sub Form1_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+    Private Sub fmiProperteisPlus_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 
         cbBoxFill()
         readiProperty()
