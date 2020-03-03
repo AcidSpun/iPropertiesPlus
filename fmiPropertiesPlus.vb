@@ -124,11 +124,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oDefault = oPropSet.Add("NUMBER", "DEFAULT UNIT")
+            oDefault = oPropSet.Item("DEFAULT UNIT")
             oPropExists = True
-        End If
-
-        If oDefault.Value Is Nothing Then
-            oDefault.Value = ("NUMBER")
         End If
 
         'get or create the Type Name Property
@@ -140,11 +137,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oTypeName = oPropSet.Add("Select Type", "TYPE NAME")
+            oTypeName = oPropSet.Item("TYPE NAME")
             oPropExists = True
-        End If
-
-        If oTypeName.Value Is Nothing Then
-            oTypeName.Value = ("Select Type")
         End If
 
         'get or create the Type Property
@@ -156,11 +150,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oType = oPropSet.Add("", "TYPE")
+            oType = oPropSet.Item("TYPE")
             oPropExists = True
-        End If
-
-        If oType.Value Is Nothing Then
-            oType.Value = ("")
         End If
 
         'get or create the Property property
@@ -172,11 +163,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("", "PROPERTY")
+            oProp = oPropSet.Item("PROPERTY")
             oPropExists = True
-        End If
-
-        If oProp.Value Is Nothing Then
-            oProp.Value = ("")
         End If
 
         'Get or create the Material property
@@ -188,11 +176,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("Select Raw Material", "MATERIAL")
+            oMaterial = oPropSet.Item("MATERIAL")
             oPropExists = True
-        End If
-
-        If oMaterial.Value Is Nothing Then
-            oMaterial.Value = ("Select Raw Material")
         End If
 
         'Get or create the Raw material Part Number property
@@ -204,11 +189,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("", "RAW MATERIAL PART NUMBER")
+            oMaterialNum = oPropSet.Item("RAW MATERIAL PART NUMBER")
             oPropExists = True
-        End If
-
-        If oMaterialNum.Value Is Nothing Then
-            oMaterialNum.Value = ("")
         End If
 
         'get or create the Next Process property
@@ -220,11 +202,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("Select Next Process", "NEXT PROCESS")
+            oNextProcess = oPropSet.Item("NEXT PROCESS")
             oPropExists = True
-        End If
-
-        If oNextProcess.Value Is Nothing Then
-            oNextProcess.Value = ("Select Next Process")
         End If
 
         'get or create the Next Process Key property
@@ -236,12 +215,10 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("", "NEXT PROCESS KEY")
+            oNextProcessKey = oPropSet.Item("NEXT PROCESS KEY")
             oPropExists = True
         End If
 
-        If oNextProcessKey.Value Is Nothing Then
-            oNextProcessKey.Value = ("")
-        End If
         'Get or create the SP Class property
         Try
             oSPClass = oPropSet.Item("SP CLASS")
@@ -251,11 +228,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("Select SP Class", "SP CLASS")
+            oSPClass = oPropSet.Item("SP CLASS")
             oPropExists = True
-        End If
-
-        If oSPClass.Value Is Nothing Then
-            oSPClass.Value = ("Select Spare Part Clasification")
         End If
 
         'Get or create the Manufaturer property
@@ -267,11 +241,8 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("", "MANUFACTURER")
+            oManufacturer = oPropSet.Item("MANUFACTURER")
             oPropExists = True
-        End If
-
-        If oManufacturer.Value Is Nothing Then
-            oManufacturer.Value = ("")
         End If
 
         'Get or create the Manufaturer Part Number property
@@ -283,11 +254,9 @@ Public Class fmiPropertiesPlus
 
         If Not oPropExists Then
             oPropSet.Add("", "MANUFACTURER PART NUMBER")
+            oManPartNum = oPropSet.Item("MANUFACTURER PART NUMBER")
         End If
 
-        If oManPartNum.Value Is Nothing Then
-            oManPartNum.Value = ("")
-        End If
 
         'read the inventor iproperties if they exist
         cbTitle.Text = oTitle.Value
