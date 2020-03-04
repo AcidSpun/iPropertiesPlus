@@ -3,7 +3,7 @@ Imports Inventor
 
 Public Class fmiPropertiesPlus
 
-    'Declaration Part for Class Global Variables
+    'Declaration Part for Class Variables used by subs
     Public ReadOnly nextProcessWS As Object = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
     Public ReadOnly typeWS As Object = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
     Public ReadOnly rawMaterialWS As Object = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
@@ -80,7 +80,7 @@ Public Class fmiPropertiesPlus
     Public Sub readiProperty()
 
         'Declaration part for local variables
-        Dim oApp As Inventor.Application
+        Dim oApp As Application
         Dim oDoc As Document
         Dim oPropSets As PropertySets
         Dim oPropSet As PropertySet

@@ -260,7 +260,6 @@ Namespace iPropertiesPlus
 
         Private Sub m_iPropertyPlusButton_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_iPropertyPlusButton.OnExecute
             'This runs whne the iProperties+ button is clicked
-
             Using dialog As New fmiPropertiesPlus
                 dialog.ShowDialog()
             End Using
