@@ -87,7 +87,7 @@ Partial Class fmiPropertiesPlus
         'lblNextProcess
         '
         Me.lblNextProcess.AutoSize = True
-        Me.lblNextProcess.Location = New System.Drawing.Point(31, 101)
+        Me.lblNextProcess.Location = New System.Drawing.Point(28, 136)
         Me.lblNextProcess.Name = "lblNextProcess"
         Me.lblNextProcess.Size = New System.Drawing.Size(70, 13)
         Me.lblNextProcess.TabIndex = 5
@@ -96,7 +96,7 @@ Partial Class fmiPropertiesPlus
         'cbNextProcess
         '
         Me.cbNextProcess.FormattingEnabled = True
-        Me.cbNextProcess.Location = New System.Drawing.Point(31, 118)
+        Me.cbNextProcess.Location = New System.Drawing.Point(31, 153)
         Me.cbNextProcess.Name = "cbNextProcess"
         Me.cbNextProcess.Size = New System.Drawing.Size(218, 21)
         Me.cbNextProcess.TabIndex = 6
@@ -105,7 +105,7 @@ Partial Class fmiPropertiesPlus
         'lblRawMaterial
         '
         Me.lblRawMaterial.AutoSize = True
-        Me.lblRawMaterial.Location = New System.Drawing.Point(31, 147)
+        Me.lblRawMaterial.Location = New System.Drawing.Point(29, 96)
         Me.lblRawMaterial.Name = "lblRawMaterial"
         Me.lblRawMaterial.Size = New System.Drawing.Size(69, 13)
         Me.lblRawMaterial.TabIndex = 7
@@ -114,16 +114,16 @@ Partial Class fmiPropertiesPlus
         'cbRawMaterial
         '
         Me.cbRawMaterial.FormattingEnabled = True
-        Me.cbRawMaterial.Location = New System.Drawing.Point(31, 163)
+        Me.cbRawMaterial.Location = New System.Drawing.Point(31, 112)
         Me.cbRawMaterial.Name = "cbRawMaterial"
-        Me.cbRawMaterial.Size = New System.Drawing.Size(218, 21)
+        Me.cbRawMaterial.Size = New System.Drawing.Size(476, 21)
         Me.cbRawMaterial.TabIndex = 8
         Me.cbRawMaterial.Text = "Select Raw Material"
         '
         'lblType
         '
         Me.lblType.AutoSize = True
-        Me.lblType.Location = New System.Drawing.Point(31, 187)
+        Me.lblType.Location = New System.Drawing.Point(28, 176)
         Me.lblType.Name = "lblType"
         Me.lblType.Size = New System.Drawing.Size(31, 13)
         Me.lblType.TabIndex = 9
@@ -132,7 +132,7 @@ Partial Class fmiPropertiesPlus
         'cbType
         '
         Me.cbType.FormattingEnabled = True
-        Me.cbType.Location = New System.Drawing.Point(31, 204)
+        Me.cbType.Location = New System.Drawing.Point(31, 192)
         Me.cbType.Name = "cbType"
         Me.cbType.Size = New System.Drawing.Size(218, 21)
         Me.cbType.TabIndex = 10
@@ -141,7 +141,7 @@ Partial Class fmiPropertiesPlus
         'lblSPClass
         '
         Me.lblSPClass.AutoSize = True
-        Me.lblSPClass.Location = New System.Drawing.Point(31, 233)
+        Me.lblSPClass.Location = New System.Drawing.Point(28, 216)
         Me.lblSPClass.Name = "lblSPClass"
         Me.lblSPClass.Size = New System.Drawing.Size(121, 13)
         Me.lblSPClass.TabIndex = 11
@@ -150,7 +150,7 @@ Partial Class fmiPropertiesPlus
         'cbSPClass
         '
         Me.cbSPClass.FormattingEnabled = True
-        Me.cbSPClass.Location = New System.Drawing.Point(31, 249)
+        Me.cbSPClass.Location = New System.Drawing.Point(31, 232)
         Me.cbSPClass.Name = "cbSPClass"
         Me.cbSPClass.Size = New System.Drawing.Size(218, 21)
         Me.cbSPClass.TabIndex = 12
@@ -159,7 +159,7 @@ Partial Class fmiPropertiesPlus
         'lblManPartNum
         '
         Me.lblManPartNum.AutoSize = True
-        Me.lblManPartNum.Location = New System.Drawing.Point(31, 278)
+        Me.lblManPartNum.Location = New System.Drawing.Point(28, 295)
         Me.lblManPartNum.Name = "lblManPartNum"
         Me.lblManPartNum.Size = New System.Drawing.Size(132, 13)
         Me.lblManPartNum.TabIndex = 13
@@ -167,7 +167,7 @@ Partial Class fmiPropertiesPlus
         '
         'tbManPartNum
         '
-        Me.tbManPartNum.Location = New System.Drawing.Point(31, 294)
+        Me.tbManPartNum.Location = New System.Drawing.Point(31, 311)
         Me.tbManPartNum.Name = "tbManPartNum"
         Me.tbManPartNum.Size = New System.Drawing.Size(218, 20)
         Me.tbManPartNum.TabIndex = 16
@@ -175,7 +175,7 @@ Partial Class fmiPropertiesPlus
         'lblNextProcessKey
         '
         Me.lblNextProcessKey.AutoSize = True
-        Me.lblNextProcessKey.Location = New System.Drawing.Point(300, 101)
+        Me.lblNextProcessKey.Location = New System.Drawing.Point(297, 136)
         Me.lblNextProcessKey.Name = "lblNextProcessKey"
         Me.lblNextProcessKey.Size = New System.Drawing.Size(91, 13)
         Me.lblNextProcessKey.TabIndex = 17
@@ -183,15 +183,15 @@ Partial Class fmiPropertiesPlus
         '
         'tbNextProcessKey
         '
-        Me.tbNextProcessKey.Location = New System.Drawing.Point(303, 118)
+        Me.tbNextProcessKey.Location = New System.Drawing.Point(300, 153)
         Me.tbNextProcessKey.Name = "tbNextProcessKey"
-        Me.tbNextProcessKey.Size = New System.Drawing.Size(205, 20)
+        Me.tbNextProcessKey.Size = New System.Drawing.Size(207, 20)
         Me.tbNextProcessKey.TabIndex = 18
         '
         'lblRawMaterialPartNumber
         '
         Me.lblRawMaterialPartNumber.AutoSize = True
-        Me.lblRawMaterialPartNumber.Location = New System.Drawing.Point(300, 147)
+        Me.lblRawMaterialPartNumber.Location = New System.Drawing.Point(297, 256)
         Me.lblRawMaterialPartNumber.Name = "lblRawMaterialPartNumber"
         Me.lblRawMaterialPartNumber.Size = New System.Drawing.Size(131, 13)
         Me.lblRawMaterialPartNumber.TabIndex = 19
@@ -199,15 +199,15 @@ Partial Class fmiPropertiesPlus
         '
         'tbRawMaterialPartNumber
         '
-        Me.tbRawMaterialPartNumber.Location = New System.Drawing.Point(303, 163)
+        Me.tbRawMaterialPartNumber.Location = New System.Drawing.Point(299, 272)
         Me.tbRawMaterialPartNumber.Name = "tbRawMaterialPartNumber"
-        Me.tbRawMaterialPartNumber.Size = New System.Drawing.Size(205, 20)
+        Me.tbRawMaterialPartNumber.Size = New System.Drawing.Size(208, 20)
         Me.tbRawMaterialPartNumber.TabIndex = 20
         '
         'lblTypeNumber
         '
         Me.lblTypeNumber.AutoSize = True
-        Me.lblTypeNumber.Location = New System.Drawing.Point(300, 188)
+        Me.lblTypeNumber.Location = New System.Drawing.Point(297, 177)
         Me.lblTypeNumber.Name = "lblTypeNumber"
         Me.lblTypeNumber.Size = New System.Drawing.Size(71, 13)
         Me.lblTypeNumber.TabIndex = 21
@@ -215,15 +215,15 @@ Partial Class fmiPropertiesPlus
         '
         'tbTypeNumber
         '
-        Me.tbTypeNumber.Location = New System.Drawing.Point(303, 204)
+        Me.tbTypeNumber.Location = New System.Drawing.Point(300, 193)
         Me.tbTypeNumber.Name = "tbTypeNumber"
-        Me.tbTypeNumber.Size = New System.Drawing.Size(205, 20)
+        Me.tbTypeNumber.Size = New System.Drawing.Size(207, 20)
         Me.tbTypeNumber.TabIndex = 22
         '
         'lblPropertyType
         '
         Me.lblPropertyType.AutoSize = True
-        Me.lblPropertyType.Location = New System.Drawing.Point(300, 233)
+        Me.lblPropertyType.Location = New System.Drawing.Point(297, 216)
         Me.lblPropertyType.Name = "lblPropertyType"
         Me.lblPropertyType.Size = New System.Drawing.Size(73, 13)
         Me.lblPropertyType.TabIndex = 23
@@ -231,15 +231,15 @@ Partial Class fmiPropertiesPlus
         '
         'tbPropertyType
         '
-        Me.tbPropertyType.Location = New System.Drawing.Point(303, 250)
+        Me.tbPropertyType.Location = New System.Drawing.Point(300, 233)
         Me.tbPropertyType.Name = "tbPropertyType"
-        Me.tbPropertyType.Size = New System.Drawing.Size(205, 20)
+        Me.tbPropertyType.Size = New System.Drawing.Size(207, 20)
         Me.tbPropertyType.TabIndex = 24
         '
         'lblManufaturer
         '
         Me.lblManufaturer.AutoSize = True
-        Me.lblManufaturer.Location = New System.Drawing.Point(300, 278)
+        Me.lblManufaturer.Location = New System.Drawing.Point(28, 256)
         Me.lblManufaturer.Name = "lblManufaturer"
         Me.lblManufaturer.Size = New System.Drawing.Size(70, 13)
         Me.lblManufaturer.TabIndex = 25
@@ -247,14 +247,14 @@ Partial Class fmiPropertiesPlus
         '
         'tbManufacturer
         '
-        Me.tbManufacturer.Location = New System.Drawing.Point(303, 294)
+        Me.tbManufacturer.Location = New System.Drawing.Point(31, 272)
         Me.tbManufacturer.Name = "tbManufacturer"
-        Me.tbManufacturer.Size = New System.Drawing.Size(205, 20)
+        Me.tbManufacturer.Size = New System.Drawing.Size(218, 20)
         Me.tbManufacturer.TabIndex = 26
         '
         'btOK
         '
-        Me.btOK.Location = New System.Drawing.Point(352, 330)
+        Me.btOK.Location = New System.Drawing.Point(325, 311)
         Me.btOK.Name = "btOK"
         Me.btOK.Size = New System.Drawing.Size(75, 23)
         Me.btOK.TabIndex = 29
@@ -263,14 +263,14 @@ Partial Class fmiPropertiesPlus
         '
         'btCancel
         '
-        Me.btCancel.Location = New System.Drawing.Point(433, 330)
+        Me.btCancel.Location = New System.Drawing.Point(406, 311)
         Me.btCancel.Name = "btCancel"
         Me.btCancel.Size = New System.Drawing.Size(75, 23)
         Me.btCancel.TabIndex = 30
         Me.btCancel.Text = "Cancel"
         Me.btCancel.UseVisualStyleBackColor = True
         '
-        'Form1
+        'fmiPropertiesPlus
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -301,7 +301,7 @@ Partial Class fmiPropertiesPlus
         Me.Controls.Add(Me.tbDescription)
         Me.Controls.Add(Me.lblDescription)
         Me.Controls.Add(Me.lblTitle)
-        Me.Name = "Form1"
+        Me.Name = "fmiPropertiesPlus"
         Me.Text = "iProperties +"
         Me.ResumeLayout(False)
         Me.PerformLayout()

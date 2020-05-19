@@ -8,6 +8,6 @@
     Public g_ExcelApp As New Microsoft.Office.Interop.Excel.Application
 
     'Opens the specific Excel workbook that contains the data for the combo/text boxs into a global variable
-    Public g_wbProperties As Object = g_ExcelApp.Workbooks.Open("G:\ALLCAD\Engineering Documents\INVENTOR\Custom Add-Ins\iProperties+\Properties.xlsx")
+    Public g_wbProperties = g_ExcelApp.Workbooks.Open("G:\ALLCAD\Engineering Documents\INVENTOR\Custom Add-Ins\iProperties+\Properties.xlsx")
 
 End Module

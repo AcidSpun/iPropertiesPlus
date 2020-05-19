@@ -501,4 +501,19 @@ Public Class fmiPropertiesPlus
 
     End Sub
 
+    Private Sub lblNextProcess_Click(sender As Object, e As EventArgs) Handles lblNextProcess.Click
+
+    End Sub
+
+    Private Sub tbNextProcessKey_TextChanged(sender As Object, e As EventArgs) Handles tbNextProcessKey.TextChanged
+
+    End Sub
+
+    Private Sub lblNextProcessKey_Click(sender As Object, e As EventArgs) Handles lblNextProcessKey.Click
+
+    End Sub
+
+    Private Sub fmiPropertiesPlus_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class
