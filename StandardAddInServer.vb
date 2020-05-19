@@ -31,6 +31,8 @@ Namespace iPropertiesPlus
             ' Set the member variable for the client ID.
             m_clientID = AddInGuid(Me.GetType)
 
+            g_ExcelApp.DisplayAlerts = False
+
             ' Get the icon for the button as an iPictureDisp object
             Dim buttonIcon As stdole.IPictureDisp = Microsoft.VisualBasic.Compatibility.VB6.IconToIPicture(My.Resources.iPropPlus)
 
@@ -84,7 +86,6 @@ Namespace iPropertiesPlus
             Get
                 Return Nothing
             End Get
-
         End Property
 
         Public Sub ExecuteCommand(ByVal commandID As Integer) Implements Inventor.ApplicationAddInServer.ExecuteCommand
@@ -102,7 +103,6 @@ Namespace iPropertiesPlus
             ' Add the command to the File controls, just before the standard iProperties command. 
             Dim fileControls As CommandControls = UIManager.FileBrowserControls
             fileControls.AddButton(m_iPropertyPlusButton, , , "AppiPropertiesWrapperCmd", True)
-
         End Sub
 
         Private Sub CreateOrUpdateClassic() 'Used  to add the button to older versions of Inventor
@@ -131,7 +131,6 @@ Namespace iPropertiesPlus
                     Next
                 End If
             Next
-
         End Sub
 
         Private Sub m_UIEvents_OnResetCommandBars(
@@ -140,14 +139,12 @@ Namespace iPropertiesPlus
             ' Activestes when the Command Bar is reset
 
             CreateOrUpdateClassic()
-
         End Sub
 
         Private Sub m_UIEvents_OnResetRibbonInterface(ByVal Context As Inventor.NameValueMap) Handles m_UIEvents.OnResetRibbonInterface
             ' Activates when the Ribbon is reset
 
             CreateOrUpdateRibbon()
-
         End Sub
 
 #Region "COM Registration"
@@ -190,7 +187,6 @@ Namespace iPropertiesPlus
                 If Not clsid Is Nothing Then clsid.Close()
                 If Not clssRoot Is Nothing Then clssRoot.Close()
             End Try
-
         End Sub
 
         ' Unregisters this class as an AddIn for Inventor.
@@ -213,7 +209,6 @@ Namespace iPropertiesPlus
                 If Not clsid Is Nothing Then clsid.Close()
                 If Not clssRoot Is Nothing Then clssRoot.Close()
             End Try
-
         End Sub
 
         ' This property uses reflection to get the value for the GuidAttribute attached to the class.
@@ -242,7 +237,6 @@ Namespace iPropertiesPlus
                     m_iPropertyPlusButton.Enabled = True
                 End If
             End If
-
         End Sub
 
         Private Sub m_appEvents_OnDeactivateView(
@@ -259,7 +253,9 @@ Namespace iPropertiesPlus
         End Sub
 
         Private Sub m_iPropertyPlusButton_OnExecute(ByVal Context As Inventor.NameValueMap) Handles m_iPropertyPlusButton.OnExecute
-            'This runs whne the iProperties+ button is clicked
+            'This runs when the iProperties+ button is clicked
+
+            ' Shows the iProperties Plus Window
             Using dialog As New fmiPropertiesPlus
                 dialog.ShowDialog()
             End Using
@@ -275,14 +271,10 @@ Namespace iPropertiesPlus
                 m_iPropertyPlusButton.Enabled = True
             ElseIf g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kPartDocumentObject Then
                 m_iPropertyPlusButton.Enabled = True
-            ElseIf g_inventorApplication.ActiveDocument.DocumentType = DocumentTypeEnum.kPresentationDocumentObject Then
-                m_iPropertyPlusButton.Enabled = False
+
             Else
                 m_iPropertyPlusButton.Enabled = False
             End If
-
         End Sub
-
     End Class
-
 End Namespace

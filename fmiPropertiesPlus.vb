@@ -4,18 +4,17 @@ Imports Inventor
 Public Class fmiPropertiesPlus
 
     'Declaration Part for Class Variables used by subs
+
     Public ReadOnly nextProcessWS As Object = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
     Public ReadOnly typeWS As Object = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
     Public ReadOnly rawMaterialWS As Object = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
     Public ReadOnly SPClassWS As Object = g_wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
     Public ReadOnly titleWS As Object = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
 
-
     Private Sub fmiProperteisPlus_Shown(sender As Object, e As EventArgs) Handles Me.Shown 'This Sub runs when the iProperties+ window is shown
 
         cbBoxFill() 'Populates the combo boxes from the excel worksheet
         readiProperty() ' reads the current iProperties from the inventor files, and populates the related combo/text boxes
-
     End Sub
 
     Private Sub cbBoxFill() 'Populates the Combo Boxes from the Excel Spreadsheet Data
@@ -42,7 +41,6 @@ Public Class fmiPropertiesPlus
         totalRowRawMaterial = rawMaterialWS.range("a1").Currentregion.Rows.Count
         totalRowSPClass = SPClassWS.range("a1").Currentregion.Rows.Count
         totalRowTitle = titleWS.range("a1").Currentregion.Rows.Count
-
 
 #Region "Populate Combo Box Menues"
 
@@ -74,7 +72,6 @@ Public Class fmiPropertiesPlus
         Next
 
 #End Region
-
     End Sub
 
     Public Sub readiProperty()
@@ -125,8 +122,7 @@ Public Class fmiPropertiesPlus
 
         'get the custom design tracking properties
 
-#Region "Get or Create the Custom Design Tracking Properties"
-
+#Region "Get or Create the Custom Design Tracking Properties and populate the combo/text boxs"
 
         'Get the custom design tracking properties if they exist and create them if they do not
         'Get or create Default Unit Property
@@ -271,23 +267,50 @@ Public Class fmiPropertiesPlus
             oManPartNum = oPropSet.Item("MANUFACTURER PART NUMBER")
         End If
 
-#End Region
 
 
         ' Populate the Text/Combo boxes with the current iProperties values
+        If oTitle.Value = "" Then
+            oTitle.Value = "Select Title"
+        End If
         cbTitle.Text = oTitle.Value
+
+        If oDescription.Value = "" Then
+            oDescription.Value = "Enter Description"
+        End If
         tbDescription.Text = oDescription.Value
+
+        If oType.Value = "" Then
+            oType.Value = "Select Type"
+        End If
         cbType.Text = oTypeName.Value
+
         tbTypeNumber.Text = oType.Value
         tbPropertyType.Text = oProp.Value
+
+        If oMaterial.Value = "" Then
+            oMaterial.Value = "Select Raw Material"
+        End If
         cbRawMaterial.Text = oMaterial.Value
+
         tbRawMaterialPartNumber.Text = oMaterialNum.Value
+
+        If oNextProcess.Value = "" Then
+            oNextProcess.Value = "Select Next Process"
+        End If
         cbNextProcess.Text = oNextProcess.Value
+
         tbNextProcessKey.Text = oNextProcessKey.Value
+
+        If oSPClass.Value = "" Then
+            oSPClass.Value = "Select Spare Part Class"
+        End If
         cbSPClass.Text = oSPClass.Value
+
         tbManufacturer.Text = oManufacturer.Value
         tbManPartNum.Text = oManPartNum.Value
 
+#End Region
     End Sub
 
     Private Sub cbNextProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbNextProcess.SelectedIndexChanged
@@ -306,7 +329,6 @@ Public Class fmiPropertiesPlus
                 tbNextProcessKey.Text = nextProcessWS.Cells(startedRow, 2).text
             End If
         Next
-
     End Sub
 
     Private Sub cbRawMaterial_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbRawMaterial.SelectedIndexChanged
@@ -325,7 +347,6 @@ Public Class fmiPropertiesPlus
                 tbRawMaterialPartNumber.Text = rawMaterialWS.Cells(startedRow, 1).text
             End If
         Next
-
     End Sub
 
     Private Sub cbType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbType.SelectedIndexChanged
@@ -345,13 +366,11 @@ Public Class fmiPropertiesPlus
                 tbPropertyType.Text = typeWS.Cells(startedRow, 3).text
             End If
         Next
-
     End Sub
 
     Private Sub btCancel_Click(sender As Object, e As EventArgs) Handles btCancel.Click 'Cancel Button Clicked
 
         Close() 'Close the iProperties+ window
-
     End Sub
 
     Private Sub btOK_Click(sender As Object, e As EventArgs) Handles btOK.Click 'OK Button Clicked
@@ -387,10 +406,11 @@ Public Class fmiPropertiesPlus
             MsgBox("The Description may only have 60 Charecters." & vbCrLf & "Remove " & over & " Charecters")
 
         Else
-            writeiProperty() 'Calls the sub to write the iProperties from the text/combo boxs
-        End If
 
-        Close() 'Close the iProperties+ window
+            writeiProperty() 'Calls the sub to write the iProperties from the text/combo boxs
+            Close() 'Close the iProperties+ window
+
+        End If
 
     End Sub
 
@@ -481,7 +501,6 @@ Public Class fmiPropertiesPlus
             oDelProp = oPropSet("it.system_group.PROPRIETA")
             oDelProp.Delete()
         End If
-
     End Sub
 
     Private Sub fmiProperteisPlus_Closed(sender As Object, e As EventArgs) Handles Me.Closed
@@ -497,7 +516,6 @@ Public Class fmiPropertiesPlus
         'Cleanup
         GC.WaitForPendingFinalizers()
         GC.Collect()
-
     End Sub
 
 End Class

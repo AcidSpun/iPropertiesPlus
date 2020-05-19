@@ -11,3 +11,6 @@ dotnet_diagnostic.CA1041.severity = none
 
 # BC40000: Type or member is obsolete
 dotnet_diagnostic.BC40000.severity = none
+
+# BC40059: A reference was created to embedded interop assembly 'stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a' because of an indirect reference to that assembly from assembly 'Microsoft.VisualBasic.Compatibility, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'. Consider changing the 'Embed Interop Types' property on either assembly.
+dotnet_diagnostic.BC40059.severity = none
