@@ -387,10 +387,11 @@ Public Class fmiPropertiesPlus
             MsgBox("The Description may only have 60 Charecters." & vbCrLf & "Remove " & over & " Charecters")
 
         Else
-            writeiProperty() 'Calls the sub to write the iProperties from the text/combo boxs
-        End If
 
-        Close() 'Close the iProperties+ window
+            writeiProperty() 'Calls the sub to write the iProperties from the text/combo boxs
+            Close() 'Close the iProperties+ window
+
+        End If
 
     End Sub
 
