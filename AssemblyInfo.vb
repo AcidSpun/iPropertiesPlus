@@ -10,8 +10,8 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("iPropertiesPlus")>
 <Assembly: AssemblyDescription("iPropertiesPlus")>
-<Assembly: AssemblyCompany("")>
-<Assembly: AssemblyProduct("")>
+<Assembly: AssemblyCompany("System Logistics Corporation")>
+<Assembly: AssemblyProduct("iPropertiesPlus")>
 <Assembly: AssemblyCopyright("")>
 <Assembly: AssemblyTrademark("")>
 
@@ -20,10 +20,10 @@ Imports System.Runtime.InteropServices
 
 ' Version information for an assembly consists of the following four values:
 '
-'      Major Version
-'      Minor Version 
-'      Build Number
-'      Revision
+'      Major Version    1
+'      Minor Version    2
+'      Build Number     1
+'      Revision         1
 '
 ' You can specify all the values or you can default the Build and Revision Numbers 
 ' by using the '*' as shown below:

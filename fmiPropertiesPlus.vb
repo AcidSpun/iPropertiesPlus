@@ -4,11 +4,7 @@ Imports Inventor
 Public Class fmiPropertiesPlus
 
     'Declaration Part for Class Variables used by subs
-    Public ReadOnly nextProcessWS As Object = g_wbProperties.Sheets(1)   'Gets the Next Process Worksheet from Excel
-    Public ReadOnly typeWS As Object = g_wbProperties.Sheets(2)          'Gets the Type Worksheet from Excel
-    Public ReadOnly rawMaterialWS As Object = g_wbProperties.Sheets(3)   'Gets the Raw Materials Worksheet from Excel
-    Public ReadOnly SPClassWS As Object = g_wbProperties.Sheets(4)       'Gets the SP Class Worksheet from Excel
-    Public ReadOnly titleWS As Object = g_wbProperties.Sheets(5)         'Gets the Title Worksheet from Excel
+
 
 
     Private Sub fmiProperteisPlus_Shown(sender As Object, e As EventArgs) Handles Me.Shown 'This Sub runs when the iProperties+ window is shown
@@ -20,14 +16,6 @@ Public Class fmiPropertiesPlus
 
     Private Sub cbBoxFill() 'Populates the Combo Boxes from the Excel Spreadsheet Data
 
-        'Declaration Part for local variables
-        Dim startedRow As Integer
-        Dim totalRowsNext As Integer
-        Dim totalRowType As Integer
-        Dim totalRowRawMaterial As Integer
-        Dim totalRowSPClass As Integer
-        Dim totalRowTitle As Integer
-
         'Clear Data from Comboboxes
         Me.cbNextProcess.Items.Clear()
         Me.cbRawMaterial.Items.Clear()
@@ -36,41 +24,34 @@ Public Class fmiPropertiesPlus
         Me.cbSPClass.Items.Clear()
         Me.cbTitle.Items.Clear()
 
-        'count number of rows in worksheets
-        totalRowsNext = nextProcessWS.range("a1").Currentregion.Rows.Count
-        totalRowType = typeWS.range("a1").Currentregion.Rows.Count
-        totalRowRawMaterial = rawMaterialWS.range("a1").Currentregion.Rows.Count
-        totalRowSPClass = SPClassWS.range("a1").Currentregion.Rows.Count
-        totalRowTitle = titleWS.range("a1").Currentregion.Rows.Count
-
 
 #Region "Populate Combo Box Menues"
 
         'Loops for Populating the Combo Boxes
 
         ' Populates the Next Process drop down menu
-        For startedRow = 1 To totalRowsNext
-            Me.cbNextProcess.Items.Add(nextProcessWS.Cells(startedRow, 1).text)
+        For startedRow = 1 To g_totalRowsNext
+            Me.cbNextProcess.Items.Add(g_nextArray(startedRow - 1, 1))
         Next
 
         ' Populates the Type drop down menu
-        For startedRow = 1 To totalRowType
-            Me.cbType.Items.Add(typeWS.Cells(startedRow, 1).text)
+        For startedRow = 1 To g_totalRowType
+            Me.cbType.Items.Add(g_typeArray(startedRow - 1, 1))
         Next
 
         ' Populates the Raw Material drop down menu
-        For startedRow = 1 To totalRowRawMaterial
-            Me.cbRawMaterial.Items.Add(rawMaterialWS.Cells(startedRow, 2).text)
+        For startedRow = 1 To g_totalRowRawMaterial
+            Me.cbRawMaterial.Items.Add(g_matArray(startedRow - 1, 2))
         Next
 
         ' Populates the SP Class drop down menu
-        For startedRow = 1 To totalRowSPClass
-            Me.cbSPClass.Items.Add(SPClassWS.Cells(startedRow, 1).text)
+        For startedRow = 1 To g_totalRowSPClass
+            Me.cbSPClass.Items.Add(g_spClassArray(startedRow - 1))
         Next
 
         ' Populates the Title drop down menu
-        For startedRow = 1 To totalRowTitle
-            Me.cbTitle.Items.Add(titleWS.Cells(startedRow, 1).text)
+        For startedRow = 1 To g_totalRowTitle
+            Me.cbTitle.Items.Add(g_titleArray(startedRow - 1))
         Next
 
 #End Region
@@ -293,17 +274,11 @@ Public Class fmiPropertiesPlus
     Private Sub cbNextProcess_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbNextProcess.SelectedIndexChanged
         'Populates text boxs related to the Next Process combo box on item select
 
-        'Decleration Part for local variables
-        Dim startedRow As Integer
-        Dim totalRows As Integer
-
-        'count number of rows inNext Process worksheet
-        totalRows = g_ExcelApp.ActiveWorkbook.Sheets(1).Range("a1").Currentregion.Rows.Count
 
         'Add the Next Process Key to the corresponding text box
-        For startedRow = 1 To totalRows
-            If cbNextProcess.Text = nextProcessWS.Cells(startedRow, 1).text Then
-                tbNextProcessKey.Text = nextProcessWS.Cells(startedRow, 2).text
+        For g_startedRow = 1 To g_totalRowsNext
+            If cbNextProcess.Text = g_nextArray(g_startedRow - 1, 1) Then
+                tbNextProcessKey.Text = g_nextArray(g_startedRow - 1, 2)
             End If
         Next
 
@@ -312,17 +287,10 @@ Public Class fmiPropertiesPlus
     Private Sub cbRawMaterial_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbRawMaterial.SelectedIndexChanged
         'Populates text boxs related to the raw Materials combo box on item select
 
-        'Decleration Part for local variables
-        Dim startedRow As Integer
-        Dim totalRows As Integer
-
-        'count number of rows in Raw Material worksheet
-        totalRows = g_ExcelApp.ActiveWorkbook.Sheets(3).Range("a1").Currentregion.Rows.Count
-
         'Add the Raw Material Part Number to the corresponding text box
-        For startedRow = 1 To totalRows
-            If cbRawMaterial.Text = rawMaterialWS.Cells(startedRow, 2).text Then
-                tbRawMaterialPartNumber.Text = rawMaterialWS.Cells(startedRow, 1).text
+        For g_startedRow = 1 To g_totalRowRawMaterial
+            If cbRawMaterial.Text = g_matArray(g_startedRow - 1, 2) Then
+                tbRawMaterialPartNumber.Text = g_matArray(g_startedRow - 1, 1)
             End If
         Next
 
@@ -331,18 +299,11 @@ Public Class fmiPropertiesPlus
     Private Sub cbType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cbType.SelectedIndexChanged
         'Populates text boxs related to the Type combo box on item select
 
-        'Decleration Part for local variables
-        Dim startedRow As Integer
-        Dim totalRows As Integer
-
-        'count number of rows in Type worksheet
-        totalRows = g_ExcelApp.ActiveWorkbook.Sheets(2).Range("a1").Currentregion.Rows.Count
-
         'Add the Type and Propertie to the corresponding text boxs
-        For startedRow = 1 To totalRows
-            If cbType.Text = typeWS.Cells(startedRow, 1).text Then
-                tbTypeNumber.Text = typeWS.Cells(startedRow, 2).text
-                tbPropertyType.Text = typeWS.Cells(startedRow, 3).text
+        For g_startedRow = 1 To g_totalRowType
+            If cbType.Text = g_typeArray(g_startedRow - 1, 1) Then
+                tbTypeNumber.Text = g_typeArray(g_startedRow - 1, 2)
+                tbPropertyType.Text = g_typeArray(g_startedRow - 1, 3)
             End If
         Next
 
@@ -487,13 +448,6 @@ Public Class fmiPropertiesPlus
 
     Private Sub fmiProperteisPlus_Closed(sender As Object, e As EventArgs) Handles Me.Closed
         ' This is what happens when the iProperties+ window is closed
-
-        ' Release the worksheets
-        Marshal.ReleaseComObject(typeWS)
-        Marshal.ReleaseComObject(nextProcessWS)
-        Marshal.ReleaseComObject(rawMaterialWS)
-        Marshal.ReleaseComObject(SPClassWS)
-        Marshal.ReleaseComObject(titleWS)
 
         'Cleanup
         GC.WaitForPendingFinalizers()

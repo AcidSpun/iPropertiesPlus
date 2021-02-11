@@ -28,6 +28,9 @@ Namespace iPropertiesPlus
             m_UIEvents = g_inventorApplication.UserInterfaceManager.UserInterfaceEvents
             m_appEvents = g_inventorApplication.ApplicationEvents
 
+            'loads the excel data arrays into memory
+            readDataFromExcel.readDataToArrays()
+
             ' Set the member variable for the client ID.
             m_clientID = AddInGuid(Me.GetType)
 
@@ -58,21 +61,9 @@ Namespace iPropertiesPlus
         Public Sub Deactivate() Implements Inventor.ApplicationAddInServer.Deactivate
             ' This sub runs on deactivation of the Add-In, also runs when inventor is closed
 
-            'Close the Workbook
-            g_ExcelApp.ActiveWorkbook.Close()
-
-            'Close Excel
-            g_ExcelApp.Quit()
-
             ' Release the global objects.
             Marshal.ReleaseComObject(g_inventorApplication)
             g_inventorApplication = Nothing
-
-            Marshal.ReleaseComObject(g_wbProperties)
-            g_wbProperties = Nothing
-
-            Marshal.ReleaseComObject(g_ExcelApp)
-            g_ExcelApp = Nothing
 
             'Cleanup
             GC.WaitForPendingFinalizers()
