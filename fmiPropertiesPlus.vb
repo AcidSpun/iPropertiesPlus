@@ -93,13 +93,28 @@ Public Class fmiPropertiesPlus
         oPropSet = oPropSets.Item("Inventor Summary Information")
 
         'Get the Title iProperty
-        oTitle = oPropSet.Item("Title")
+        Try
+            oTitle = oPropSet.Item("Title")
+        Catch ex As Exception
+
+        End Try
+
 
         'change the property set to Design Tracking Properties to get Description
-        oPropSet = oPropSets.Item("Design Tracking Properties")
+        Try
+            oPropSet = oPropSets.Item("Design Tracking Properties")
+        Catch ex As Exception
+
+        End Try
+
 
         'Get the Description iProperty
-        oDescription = oPropSet.Item("Description")
+        Try
+            oDescription = oPropSet.Item("Description")
+        Catch ex As Exception
+
+        End Try
+
 
         'Change the design tracking property set to Custom to get the required properties for WindChill use
         oPropSet = oPropSets.Item("Inventor User Defined Properties")
@@ -450,8 +465,9 @@ Public Class fmiPropertiesPlus
         ' This is what happens when the iProperties+ window is closed
 
         'Cleanup
-        GC.WaitForPendingFinalizers()
         GC.Collect()
+        GC.WaitForPendingFinalizers()
+
 
     End Sub
 

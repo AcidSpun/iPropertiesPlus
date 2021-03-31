@@ -274,7 +274,7 @@ Partial Class fmiPropertiesPlus
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(535, 378)
+        Me.ClientSize = New System.Drawing.Size(535, 365)
         Me.Controls.Add(Me.btCancel)
         Me.Controls.Add(Me.btOK)
         Me.Controls.Add(Me.tbManufacturer)
