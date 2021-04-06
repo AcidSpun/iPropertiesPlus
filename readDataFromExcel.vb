@@ -84,9 +84,9 @@ Module readDataFromExcel
 
     End Sub
 
-    Private Sub NAR(ByVal o As Object)
+    Private Sub NAR(o As Object) 'Closes and cleans up the Excel COM Objects
         Try
-            While (System.Runtime.InteropServices.Marshal.ReleaseComObject(o) > 0)
+            While Marshal.ReleaseComObject(o) > 0
             End While
         Catch ex As Exception
         Finally

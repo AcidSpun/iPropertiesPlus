@@ -1,6 +1,7 @@
-﻿Imports System.Runtime.InteropServices
-Imports Inventor
+﻿Imports Inventor
 
+<CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId:="fmi")>
+<CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId:="fmi")>
 Public Class fmiPropertiesPlus
 
     'Declaration Part for Class Variables used by subs
@@ -58,6 +59,8 @@ Public Class fmiPropertiesPlus
 
     End Sub
 
+    <CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId:="readi")>
+    <CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId:="readi")>
     Public Sub readiProperty()
 
         'Declaration part for local variables
@@ -371,6 +374,8 @@ Public Class fmiPropertiesPlus
 
     End Sub
 
+    <CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId:="writei")>
+    <CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId:="writei")>
     Public Sub writeiProperty()
 
         'Declaration part
@@ -465,7 +470,6 @@ Public Class fmiPropertiesPlus
         ' This is what happens when the iProperties+ window is closed
 
         'Cleanup
-        GC.Collect()
         GC.WaitForPendingFinalizers()
 
 

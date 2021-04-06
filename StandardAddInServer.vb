@@ -18,6 +18,7 @@ Namespace iPropertiesPlus
 
 #Region "ApplicationAddInServer Members"
 
+        <Obsolete>
         Public Sub Activate(ByVal addInSiteObject As Inventor.ApplicationAddInSite,
                 ByVal firstTime As Boolean) Implements Inventor.ApplicationAddInServer.Activate
             ' This sub runs on activation of the iPropertiesPlus Add-In, 
@@ -29,13 +30,13 @@ Namespace iPropertiesPlus
             m_appEvents = g_inventorApplication.ApplicationEvents
 
             'loads the excel data arrays into memory
-            readDataFromExcel.readDataToArrays()
+            readDataToArrays()
 
             ' Set the member variable for the client ID.
             m_clientID = AddInGuid(Me.GetType)
 
             ' Get the icon for the button as an iPictureDisp object
-            Dim buttonIcon As stdole.IPictureDisp = Microsoft.VisualBasic.Compatibility.VB6.IconToIPicture(My.Resources.iPropPlus)
+            Dim buttonIcon As stdole.IPictureDisp = Compatibility.VB6.IconToIPicture(My.Resources.iPropPlus)
 
             ' Create the button for the iProperty Plus command.
             m_iPropertyPlusButton = g_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition("iProperties +",
@@ -67,7 +68,7 @@ Namespace iPropertiesPlus
 
             'Cleanup
             GC.WaitForPendingFinalizers()
-            GC.Collect()
+
         End Sub
 
         Public ReadOnly Property Automation() As Object Implements Inventor.ApplicationAddInServer.Automation
